@@ -31,7 +31,7 @@ npm install
 ✅ Test: 테스트 코드 추가
 📝 Docs: README.md 업데이트
 🔥 Remove: 사용하지 않는 파일 제거
-💚 Ci: 자동 배포 스크립트 변드
+💚 Ci: 자동 배포 스크립트 변동
 🔖 Release: 릴리즈 버전 1.0.3
 🔧 Chore: 설정파일 수정
 ```

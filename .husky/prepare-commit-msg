@@ -25,7 +25,6 @@ fi
 type=$(echo "$first_line" | grep -o "^[A-Za-z]*")
 start_case_type="$(echo "$type" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')"
 
-# 배열에서 매칭되는 항목 찾기
 for entry in "${emojies[@]}"; do
   key="${entry%% *}"
   value="${entry#* }"
