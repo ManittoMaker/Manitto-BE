@@ -1,0 +1,33 @@
+#!/bin/sh
+. "$(dirname -- "$0")/husky.sh"
+
+declare -A emojies
+emojies=(
+  ["Feat"]="✨"
+  ["Fix"]="🐛"
+  ["Style"]="⭐️"
+  ["Refactor"]="♻️"
+  ["File"]="📁"
+  ["Test"]="✅"
+  ["Docs"]="📝"
+  ["Remove"]="🔥"
+  ["Ci"]="💚"
+  ["Release"]="🔖"
+  ["Chore"]="🔧"
+)
+
+COMMIT_MESSAGE_FILE_PATH=$1
+first_line=$(head -n1 "$COMMIT_MESSAGE_FILE_PATH")
+
+if [[ $first_line =~ ^(Merge|Revert|Amend|Reset|Rebase|Tag) ]]; then
+  exit 0
+fi
+
+type=$(echo "$first_line" | grep -o "^[A-Za-z]*")
+start_case_type="$(echo "$type" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')"
+
+if [[ -n "${emojies[$start_case_type]}" ]]; then
+  emoji=${emojies[$start_case_type]}
+  first_line=$(echo "$first_line" | sed "s/^$type/$emoji $start_case_type/")
+  echo "$first_line" > "$COMMIT_MESSAGE_FILE_PATH"
+fi

@@ -244,3 +244,16 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,git,java,maven,intellij+all,gradle,netbeans
+
+# husky 관련 파일
+node_modules/
+dist/
+build/
+coverage/
+
+.husky/_/*
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
