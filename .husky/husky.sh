@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 if [ -z "$husky_skip_init" ]; then
   readonly hook_name="$(basename -- "$0")"
   echo "시작된 훅 이름 : $hook_name"
