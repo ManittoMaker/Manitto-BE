@@ -1,9 +1,8 @@
 spring:
   profiles:
     default: local
-    include: private
 
   # 공통
   data:
     mongodb:
-      uri: ${mongo.uri}
+      uri: ${DB_URI}

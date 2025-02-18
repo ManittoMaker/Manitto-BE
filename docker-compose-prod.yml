@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    container_name: spring
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:8.0.5-rc2-noble
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - ${DB_DATA_DIR}:/data
