@@ -103,6 +103,16 @@ issue55-fix-login-and-signup
 jg
 ```
 
+### issue 브랜치 생명주기
+
+issue 페이지에서 각 커밋을 가독성 좋게 관리하기 위해 다음 규칙으로 제한합니다.
+
+1. 깃허브에서 이슈를 생성합니다
+2. Development에서 새로운 브랜치를 생성합니다
+   ![new_branch.png](.github/image/new_branch.png)
+3. 작업 후 원격브랜치로 push합니다
+4. Github에서 merge를 수행합니다
+
 ## 📝 Swagger API DOCS 명세서
 
 로컬 : http://localhost:8080/swagger-ui/index.html
