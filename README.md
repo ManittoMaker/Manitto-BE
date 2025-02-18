@@ -102,3 +102,8 @@ issue55-fix-login-and-signup
 ```
 jg
 ```
+
+## 📝 Swagger API DOCS 명세서
+
+로컬 : http://localhost:8080/swagger-ui/index.html
+운영 : {미배포}/swagger-ui/index.html
