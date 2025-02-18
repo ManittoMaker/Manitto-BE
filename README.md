@@ -45,3 +45,60 @@ npm install
 
 [optional footer(s)]
 ```
+
+## 🌿 Branch Strategy
+
+이 프로젝트는 **이슈 템플릿을 기반으로 작업**합니다.  
+브랜치는 크게 **main, develop, issue, initial** 로 나뉩니다.
+
+```mermaid
+graph TD;
+    main["🔖 main (운영 배포)"] --> develop["🛠 develop (개발 브랜치)"];
+    develop --> issue["🚀 issue (기능/버그 작업)"];
+    develop --> initial["📝 initial (간단한 작업)"];
+```
+
+### main
+
+- 운영 서버에 배포 가능한 브랜치입니다.
+- 안정적인 코드만 포함됩니다.
+
+### develop
+
+- 개발 브랜치로, 모든 기능이 이곳에서 통합됩니다.
+- 직접 수정하지 않고, issue 또는 initial 브랜치를 통해 머지됩니다.
+
+### issue
+
+- 이슈 템플릿을 기반으로 작업하는 브랜치입니다.
+- commitlint와 연동되어 자동으로 이슈와 연결됩니다.
+
+✅ 브랜치 네이밍 규칙
+
+```
+issue{이슈번호}-{type}-{이름}
+```
+
+📌 예시
+
+```
+issue42-feature-login
+issue55-fix-login-and-signup
+```
+
+### initial
+
+- 이슈가 필요 없는 간단한 추가/수정/문서 작업을 위한 브랜치입니다.
+- 개발자의 이니셜을 브랜치 이름으로 사용합니다.
+
+✅ 브랜치 네이밍 규칙
+
+```
+{initial}
+```
+
+📌 예시
+
+```
+jg
+```
