@@ -1,7 +1,9 @@
 services:
   web:
-    build: .
+    image: mingdodev/manitto
     container_name: spring
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     depends_on:
