@@ -61,8 +61,8 @@ jobs:
             
             docker pull mingdodev/manitto
             
-            echo "${{ secrets.APPLICATION_ENV }}" > /home/jokubattle/.env
-            echo "${{ secrets.DOCKER_COMPOSE }}" > /home/jokubattle/docker-compose.yml
+            echo "${{ secrets.APPLICATION_ENV }}" | base64 --decode > /home/jokubattle/.env
+            echo "${{ secrets.DOCKER_COMPOSE }}" | base64 --decode > /home/jokubattle/docker-compose.yml
             
             docker compose down
             docker compose up -d
