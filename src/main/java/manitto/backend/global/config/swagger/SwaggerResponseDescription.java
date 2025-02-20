@@ -8,8 +8,8 @@ import manitto.backend.global.exception.ErrorCode;
 @Getter
 public enum SwaggerResponseDescription {
 
-    EXAMPLE(new LinkedHashSet<>(Set.of(
-            ErrorCode.SERVER_UNTRACKED_ERROR
+    GET_USER_RESULT(new LinkedHashSet<>(Set.of(
+
     ))),
     ;
 

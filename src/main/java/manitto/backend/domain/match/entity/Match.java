@@ -3,7 +3,7 @@ package manitto.backend.domain.match.entity;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
-import nonapi.io.github.classgraph.json.Id;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "matches")
