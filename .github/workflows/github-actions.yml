@@ -1,0 +1,55 @@
+name: Build and Deploy using github actions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build Jar
+        run: ./gradlew clean build -x test
+
+      - name: Build Docker image
+        run: docker build --platform linux/amd64 -t mingdodev/manitto .
+
+      - name: Docker Hub Login
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Push Docker Image
+        run: docker push mingdodev/manitto
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to GCP Vm via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_SSH_HOST }}
+          username: ${{ secrets.REMOTE_SSH_USERNAME }}
+          key: ${{ secrets.REMOTE_SSH_KEY }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          script: |
+            echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            
+            docker pull mingdodev/manitto
+            
+            echo "${{ secrets.APPLICATION_ENV }}" | base64 --decode > /home/jokubattle/.env
+            echo "${{ secrets.DOCKER_COMPOSE }}" | base64 --decode > /home/jokubattle/docker-compose.yml
+            
+            docker compose down
+            docker compose up -d
