@@ -6,12 +6,16 @@ on:
       - "issue9-deploy-cicd"
 
 jobs:
+
+  # 테스트도 자동화하려 했는데, 테스트에서 환경 변수를 잘 사용하려면 어떻게 해야 할까?
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Run Tests
+        env:
+          DB_URI: ${{ secrets.DB_URI }}
         run: ./gradlew test
 
   build:
@@ -37,7 +41,7 @@ jobs:
 
       - name: Push Docker Image
         run: docker push mingdodev/manitto
-  
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
