@@ -9,7 +9,6 @@ import manitto.backend.domain.match.service.MatchService;
 import manitto.backend.global.config.annotation.CustomExceptionDescription;
 import manitto.backend.global.config.swagger.SwaggerResponseDescription;
 import manitto.backend.global.dto.response.SuccessResponse;
-import manitto.backend.global.dto.response.result.SingleResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +27,7 @@ public class MatchController {
     @Operation(summary = "매칭 결과 조회", description = "특정 그룹의 단일 사용자에 대한 매칭 결과를 조회합니다.")
     @CustomExceptionDescription(SwaggerResponseDescription.GET_USER_RESULT)
     @GetMapping("/{groupId}/result/user/{name}")
-    public SuccessResponse<SingleResult<MatchGetResultRes>> getUserResult(
+    public SuccessResponse<MatchGetResultRes> getUserResult(
             @PathVariable("groupId") String groupId,
             @PathVariable("name") String name,
             @Validated @ModelAttribute MatchGetResultReq req
