@@ -17,6 +17,7 @@ emojies=(
 
 COMMIT_MESSAGE_FILE_PATH=$1
 first_line=$(head -n1 "$COMMIT_MESSAGE_FILE_PATH")
+remaining_lines=$(tail -n +2 "$COMMIT_MESSAGE_FILE_PATH")
 
 if [[ $first_line =~ ^(Merge|Revert|Amend|Reset|Rebase|Tag) ]]; then
   exit 0
@@ -31,7 +32,6 @@ for entry in "${emojies[@]}"; do
   if [[ "$start_case_type" == "$key" ]]; then
     emoji=$value
     first_line=$(echo "$first_line" | sed "s/^$type/$emoji $start_case_type/")
-    echo "$first_line" > "$COMMIT_MESSAGE_FILE_PATH"
     break
   fi
 done
@@ -39,9 +39,13 @@ done
 branch_name=$(git rev-parse --abbrev-ref HEAD)
 issue_number=$(echo "$branch_name" | sed -n 's/issue\([0-9]\{1,\}\)-.*/\1/p')
 
+echo "$first_line" > "$COMMIT_MESSAGE_FILE_PATH"
+echo "$remaining_lines" >> "$COMMIT_MESSAGE_FILE_PATH"
+
 last_line=$(tail -n1 "$COMMIT_MESSAGE_FILE_PATH")
-if [ `echo $last_line | grep -c "#$issue_number"` -eq 0 ]; then
-  subject=$(cat "$COMMIT_MESSAGE_FILE_PATH" | cut -d':' -f2)
-  echo "" >> "$COMMIT_MESSAGE_FILE_PATH"
-  echo "#$issue_number" >> "$COMMIT_MESSAGE_FILE_PATH"
+if [[ -n "$issue_number" ]]; then
+    if ! grep -q "#$issue_number" "$COMMIT_MESSAGE_FILE_PATH"; then
+      echo "" >> "$COMMIT_MESSAGE_FILE_PATH"
+      echo "#$issue_number" >> "$COMMIT_MESSAGE_FILE_PATH"
+    fi
 fi
