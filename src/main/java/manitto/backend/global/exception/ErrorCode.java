@@ -36,7 +36,8 @@ public enum ErrorCode {
     AUTHENTICATION_SETTING_FAIL(-207, "인증정보 처리에 실패했습니다.", 500),
 
     // Match
-    MATCH_NOT_VALID(-300, "유효하지 않은 그룹입니다.", 400),
+    MATCH_NOT_VALID(-300, "유효하지 않은 매치입니다.", 400),
+    MATCH_NOT_FOUND(-301, "조회된 매치가 없습니다.", 406),
     ;
 
 
