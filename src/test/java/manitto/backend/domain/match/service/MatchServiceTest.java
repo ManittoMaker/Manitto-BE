@@ -56,6 +56,8 @@ class MatchServiceTest {
         String password = "password";
         MatchGetResultReq req = MatchDtoMother.createMatchGetResultReq(password);
 
+        matchRepository.deleteAll();
+
         // when
 
         // then
