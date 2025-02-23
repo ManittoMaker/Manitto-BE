@@ -12,6 +12,7 @@ import manitto.backend.domain.match.repository.MatchRepository;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
 import manitto.backend.testUtil.MatchDtoMother;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -26,6 +27,11 @@ class MatchServiceTest {
     @Autowired
     private MatchRepository matchRepository;
 
+    @BeforeEach
+    void setUp() {
+        matchRepository.deleteAll();
+    }
+
     @Test
     public void getUserResult_정상_응답() {
         // given
@@ -35,9 +41,9 @@ class MatchServiceTest {
         MatchGetResultReq req = MatchDtoMother.createMatchGetResultReq(password);
 
         String receiver = "receiverName";
-        MatchResult match1 = MatchResult.create(giver, password, receiver);
-        MatchResult match2 = MatchResult.create(receiver, password, giver);
-        Match match = Match.create(groupId, List.of(match1, match2));
+        MatchResult matchResult1 = MatchResult.create(giver, password, receiver);
+        MatchResult matchResult2 = MatchResult.create(receiver, password, giver);
+        Match match = Match.create(groupId, List.of(matchResult1, matchResult2));
         matchRepository.save(match);
 
         // when
@@ -56,8 +62,6 @@ class MatchServiceTest {
         String password = "password";
         MatchGetResultReq req = MatchDtoMother.createMatchGetResultReq(password);
 
-        matchRepository.deleteAll();
-
         // when
 
         // then
@@ -65,5 +69,53 @@ class MatchServiceTest {
                 .isInstanceOf(CustomException.class)
                 .extracting(e -> ((CustomException) e).getErrorCode())
                 .isEqualTo(ErrorCode.MATCH_NOT_FOUND);
+    }
+
+    @Test
+    public void getUserResult_하나의_그룹에_여러_매치_정보가_존재하면_에러_반환() {
+        // given
+        String groupId = "123abcABC";
+        String giver = "giverName";
+        String password = "password";
+        MatchGetResultReq req = MatchDtoMother.createMatchGetResultReq(password);
+
+        String receiver = "receiverName";
+        MatchResult matchResult1 = MatchResult.create(giver, password, receiver);
+        MatchResult matchResult2 = MatchResult.create(receiver, password, giver);
+        Match match = Match.create(groupId, List.of(matchResult1, matchResult2));
+        Match duplicatedMatch = Match.create(groupId, List.of(matchResult1, matchResult2));
+        matchRepository.save(match);
+        matchRepository.save(duplicatedMatch);
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> matchService.getUserResult(groupId, giver, req))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.MATCH_INTEGRITY_VIOLATION);
+    }
+
+    @Test
+    public void getUserResult_그룹_내_동일한_매치정보가_있는_경우_에러_반환() {
+        // given
+        String groupId = "123abcABC";
+        String giver = "giverName";
+        String password = "password";
+        MatchGetResultReq req = MatchDtoMother.createMatchGetResultReq(password);
+
+        String receiver = "receiverName";
+        MatchResult matchResult = MatchResult.create(giver, password, receiver);
+        MatchResult duplicatedMatchResult = MatchResult.create(giver, password, receiver);
+        Match match = Match.create(groupId, List.of(matchResult, duplicatedMatchResult));
+        matchRepository.save(match);
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> matchService.getUserResult(groupId, giver, req))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.MATCH_INTEGRITY_VIOLATION);
     }
 }

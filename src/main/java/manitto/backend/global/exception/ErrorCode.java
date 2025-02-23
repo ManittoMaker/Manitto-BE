@@ -38,7 +38,7 @@ public enum ErrorCode {
     // Match
     MATCH_NOT_VALID(-300, "유효하지 않은 매치입니다.", 400),
     MATCH_NOT_FOUND(-301, "조회된 매치가 없습니다.", 406),
-    ;
+    MATCH_INTEGRITY_VIOLATION(-302, "유효하지 않은 매치 정보가 검출되었습니다.", 500);
 
 
     private final int errorCode;
