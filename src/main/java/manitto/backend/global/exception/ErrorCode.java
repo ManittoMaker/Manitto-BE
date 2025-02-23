@@ -34,7 +34,11 @@ public enum ErrorCode {
     FORBIDDEN(-201, "권한이 없습니다.", 403),
     AUTHORIZED_ERROR(-204, "인증 과정 중 에러가 발생했습니다.", 500),
     AUTHENTICATION_SETTING_FAIL(-207, "인증정보 처리에 실패했습니다.", 500),
-    ;
+
+    // Match
+    MATCH_NOT_VALID(-300, "유효하지 않은 매치입니다.", 400),
+    MATCH_NOT_FOUND(-301, "조회된 매치가 없습니다.", 406),
+    MATCH_INTEGRITY_VIOLATION(-302, "유효하지 않은 매치 정보가 검출되었습니다.", 500);
 
 
     private final int errorCode;
