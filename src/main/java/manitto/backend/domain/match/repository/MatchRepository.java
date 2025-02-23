@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface MatchRepository extends MongoRepository<Match, String> {
 
-    @Query(value = "{ 'groupId': ?0, 'matches': { '$elemMatch': { 'giver': ?1, 'password': ?2 } } }",
-            fields = "{ 'matches.$': 1 }")
+    @Query(value = "{ 'groupId': ?0 }",
+            fields = "{ 'matches': { '$filter': { 'input': '$matches', 'as': 'match', 'cond': { '$and': [ { '$eq': ['$$match.giver', ?1] }, { '$eq': ['$$match.password', ?2] } ] } } } }")
     List<Match> findMatchResultByGroupIdAndGiverAndPassword(String groupId, String giver, String password);
 }

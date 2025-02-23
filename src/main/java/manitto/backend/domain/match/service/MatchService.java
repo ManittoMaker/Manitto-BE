@@ -23,6 +23,12 @@ public class MatchService {
         if (matches.isEmpty()) {
             throw new CustomException(ErrorCode.MATCH_NOT_FOUND);
         }
+        if (matches.size() > 1) {
+            throw new CustomException(ErrorCode.MATCH_INTEGRITY_VIOLATION);
+        }
+        if (matches.get(0).getMatches().size() > 1) {
+            throw new CustomException(ErrorCode.MATCH_INTEGRITY_VIOLATION);
+        }
         String receiver = matches.get(0).getMatches().get(0).getReceiver();
         return MatchDtoMapper.toMatchGetResultRes(receiver);
     }
