@@ -98,4 +98,6 @@ class MatchServiceTest {
                 .extracting(e -> ((CustomException) e).getErrorCode())
                 .isEqualTo(ErrorCode.MATCH_INTEGRITY_VIOLATION);
     }
+
+    // TODO - 매치 정보 삽입하는 로직에서 매치 결과 중복 검증 필요 - giver, receiver
 }
