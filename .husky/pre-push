@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/husky.sh"
+
+echo "🛠 테스트 실행 중..."
+./gradlew test
+
+if [ $? -ne 0 ]; then
+  echo "❌ 테스트 실패, Push를 중단합니다."
+  exit 1
+fi
+
+echo "✅ 테스트 통과, Push를 진행합니다."
+exit 0
