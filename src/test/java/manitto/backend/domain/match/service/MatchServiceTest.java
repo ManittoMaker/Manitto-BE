@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupRepository;
+import manitto.backend.domain.group.service.GroupValidator;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
 import manitto.backend.domain.match.dto.response.MatchAllResultRes;
@@ -28,7 +29,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @DataMongoTest
 @TestPropertySource(properties = "spring.mongodb.embedded.version=4.0.2")
-@Import({MatchService.class, MatchTemplateRepository.class})
+@Import({MatchService.class, MatchTemplateRepository.class, MatchValidator.class, GroupValidator.class})
 class MatchServiceTest {
 
     @Autowired
