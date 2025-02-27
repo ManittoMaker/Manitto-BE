@@ -8,10 +8,14 @@ import manitto.backend.global.exception.ErrorCode;
 @Getter
 public enum SwaggerResponseDescription {
 
-    GET_USER_RESULT(new LinkedHashSet<>(Set.of(
-
+    MATCH_GET_USER_RESULT(new LinkedHashSet<>(Set.of(
+            ErrorCode.MATCH_INTEGRITY_VIOLATION
     ))),
-    ;
+    MATCH_START(new LinkedHashSet<>(Set.of(
+            ErrorCode.GROUP_NOT_FOUND,
+            ErrorCode.MATCH_MEMBER_NAME_DUPLICATED,
+            ErrorCode.MATCH_ALREADY_EXIST
+    )));
 
     private Set<ErrorCode> errorCodeList;
 
@@ -22,11 +26,16 @@ public enum SwaggerResponseDescription {
                 ErrorCode.INVALID_PARAMETER,
                 ErrorCode.PARAMETER_VALIDATION_ERROR,
                 ErrorCode.PARAMETER_GRAMMAR_ERROR,
-                ErrorCode.UNAUTHORIZED,
-                ErrorCode.FORBIDDEN,
-                ErrorCode.AUTHORIZED_ERROR,
                 ErrorCode.OBJECT_NOT_FOUND
         )));
+
+        if (this.name().startsWith("MATCH_")) {
+            errorCodeList.add(ErrorCode.MATCH_NOT_FOUND);
+        }
+
+        if (this.name().startsWith("GROUP_")) {
+            errorCodeList.add(ErrorCode.GROUP_NOT_FOUND);
+        }
 
         this.errorCodeList = errorCodeList;
     }

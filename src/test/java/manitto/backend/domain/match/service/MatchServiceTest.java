@@ -4,34 +4,40 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import manitto.backend.config.mongo.EnableMongoTestServer;
+import manitto.backend.domain.group.entity.Group;
+import manitto.backend.domain.group.repository.GroupRepository;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
+import manitto.backend.domain.match.dto.request.MatchStartReq;
+import manitto.backend.domain.match.dto.response.MatchAllResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
 import manitto.backend.domain.match.repository.MatchRepository;
-import manitto.backend.domain.match.repository.MatchTemplateRepository;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
 import manitto.backend.testUtil.MatchDtoMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@DataMongoTest
-@TestPropertySource(properties = "spring.mongodb.embedded.version=4.0.2")
-@Import({MatchService.class, MatchTemplateRepository.class})
+@SpringBootTest
+@EnableMongoTestServer
 class MatchServiceTest {
 
     @Autowired
     private MatchService matchService;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
     @BeforeEach
     void setUp() {
+        groupRepository.deleteAll();
         matchRepository.deleteAll();
     }
 
@@ -100,4 +106,80 @@ class MatchServiceTest {
     }
 
     // TODO - 매치 정보 삽입하는 로직에서 매치 결과 중복 검증 필요 - giver, receiver
+    @Test
+    void matchStart_정상_응답_멤버가_2명() {
+        // given
+        String leaderName = "leader";
+        String groupName = "group";
+        String password = "password";
+
+        String member1 = "name1";
+        String member2 = "name2";
+        MatchStartReq req = MatchDtoMother.createMatchStartReq(List.of(member1, member2));
+
+        Group group = Group.create(leaderName, groupName, password);
+        group = groupRepository.save(group);
+
+        // when
+        MatchAllResultRes result = matchService.matchStart(group.getId(), req);
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.getGroupId()).isEqualTo(group.getId());
+        assertThat(result.getResult())
+                .extracting(MatchResult::getPassword)
+                .doesNotContainNull();
+
+        Map<String, String> matchMap = result.getResult().stream()
+                .collect(Collectors.toMap(MatchResult::getGiver, MatchResult::getReceiver));
+        assertThat(matchMap).containsEntry(member1, member2);
+        assertThat(matchMap).containsEntry(member2, member1);
+    }
+
+    @Test
+    void matchStart_중복된_멤버_이름_존재() {
+        // given
+        String leaderName = "leader";
+        String groupName = "group";
+        String password = "password";
+
+        String member1 = "sameName";
+        String member2 = "sameName";
+        MatchStartReq req = MatchDtoMother.createMatchStartReq(List.of(member1, member2));
+
+        Group group = Group.create(leaderName, groupName, password);
+        groupRepository.save(group);
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> matchService.matchStart(group.getId(), req))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
+    }
+
+    @Test
+    void matchStart_이미_매칭된_그룹() {
+        // given
+        String leaderName = "leader";
+        String groupName = "group";
+        String password = "password";
+
+        String member1 = "name1";
+        String member2 = "name2";
+        MatchStartReq req = MatchDtoMother.createMatchStartReq(List.of(member1, member2));
+
+        Group group = Group.create(leaderName, groupName, password);
+        groupRepository.save(group);
+        matchService.matchStart(group.getId(), req);
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> matchService.matchStart(group.getId(), req))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.MATCH_ALREADY_EXIST);
+    }
 }

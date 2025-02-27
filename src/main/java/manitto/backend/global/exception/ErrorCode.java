@@ -29,17 +29,16 @@ public enum ErrorCode {
     INVALID_TYPE_PARAMETER(-106, "잘못된 타입 파라미터입니다.", 422),
     NOT_FOUND_PATH(-108, "존재하지 않는 API 경로입니다.", 404),
 
-    //Auth
-    UNAUTHORIZED(-200, "인증 자격이 없습니다.", 401),
-    FORBIDDEN(-201, "권한이 없습니다.", 403),
-    AUTHORIZED_ERROR(-204, "인증 과정 중 에러가 발생했습니다.", 500),
-    AUTHENTICATION_SETTING_FAIL(-207, "인증정보 처리에 실패했습니다.", 500),
-
     // Match
     MATCH_NOT_VALID(-300, "유효하지 않은 매치입니다.", 400),
     MATCH_NOT_FOUND(-301, "조회된 매치가 없습니다.", 406),
-    MATCH_INTEGRITY_VIOLATION(-302, "유효하지 않은 매치 정보가 검출되었습니다.", 500);
+    MATCH_INTEGRITY_VIOLATION(-302, "유효하지 않은 매치 정보가 검출되었습니다.", 500),
+    MATCH_MEMBER_NAME_DUPLICATED(-303, "멤버 이름은 중복되면 안됩니다.", 400),
+    MATCH_ALREADY_EXIST(-304, "이미 매칭된 그룹입니다.", 409),
 
+    // Group
+    GROUP_NOT_FOUND(-400, "조회된 그룹이 없습니다.", 406),
+    ;
 
     private final int errorCode;
     private final String message;
