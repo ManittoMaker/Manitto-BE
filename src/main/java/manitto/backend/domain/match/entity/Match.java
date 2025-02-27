@@ -31,6 +31,7 @@ public class Match extends BaseEntity {
         }
 
         return Match.builder()
+                .id(generateFirestoreId())
                 .groupId(groupId)
                 .matches(matches)
                 .build();

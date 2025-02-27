@@ -1,6 +1,7 @@
 package manitto.backend.global.entity;
 
 import java.time.Instant;
+import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,4 +13,8 @@ public abstract class BaseEntity {
 
     @CreatedDate
     private Instant createdAt;
+
+    public static String generateFirestoreId() {
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 20);
+    }
 }
