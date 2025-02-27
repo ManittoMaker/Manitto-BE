@@ -11,7 +11,9 @@ public enum SwaggerResponseDescription {
     GET_USER_RESULT(new LinkedHashSet<>(Set.of(
 
     ))),
-    ;
+    MATCH_START(new LinkedHashSet<>(Set.of(
+
+    )));
 
     private Set<ErrorCode> errorCodeList;
 

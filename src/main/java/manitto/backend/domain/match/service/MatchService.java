@@ -3,6 +3,8 @@ package manitto.backend.domain.match.service;
 import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.match.dto.mapper.MatchDtoMapper;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
+import manitto.backend.domain.match.dto.request.MatchStartReq;
+import manitto.backend.domain.match.dto.response.MatchAllResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.repository.MatchRepository;
@@ -22,5 +24,9 @@ public class MatchService {
 
         String receiver = match.getMatches().get(0).getReceiver();
         return MatchDtoMapper.toMatchGetResultRes(receiver);
+    }
+
+    public MatchAllResultRes matchStart(String groupId, MatchStartReq req) {
+        return null;
     }
 }
