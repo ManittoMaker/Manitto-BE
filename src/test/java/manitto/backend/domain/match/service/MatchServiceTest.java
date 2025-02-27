@@ -112,7 +112,6 @@ class MatchServiceTest {
     @Test
     void matchStart_정상_응답_멤버가_2명() {
         // given
-        String groupId = "123abcABC";
         String leaderName = "leader";
         String groupName = "group";
         String password = "password";
@@ -125,7 +124,7 @@ class MatchServiceTest {
         group = groupRepository.save(group);
 
         // when
-        MatchAllResultRes result = matchService.matchStart(groupId, req);
+        MatchAllResultRes result = matchService.matchStart(group.getId(), req);
 
         // then
         assertThat(result).isNotNull();
@@ -143,7 +142,6 @@ class MatchServiceTest {
     @Test
     void matchStart_중복된_멤버_이름_존재() {
         // given
-        String groupId = "123abcABC";
         String leaderName = "leader";
         String groupName = "group";
         String password = "password";
@@ -158,7 +156,7 @@ class MatchServiceTest {
         // when
 
         // then
-        assertThatThrownBy(() -> matchService.matchStart(groupId, req))
+        assertThatThrownBy(() -> matchService.matchStart(group.getId(), req))
                 .isInstanceOf(CustomException.class)
                 .extracting(e -> ((CustomException) e).getErrorCode())
                 .isEqualTo(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
