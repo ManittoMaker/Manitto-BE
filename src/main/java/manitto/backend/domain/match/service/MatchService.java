@@ -35,6 +35,7 @@ public class MatchService {
 
     public MatchAllResultRes matchStart(String groupId, MatchStartReq req) {
         groupValidator.validateExists(groupId);
+        matchValidator.validateAlreadyExists(groupId);
         matchValidator.validateDuplicateName(req.getNames());
 
         List<MatchResult> matchResults = matchProcessor.matching(req.getNames());
