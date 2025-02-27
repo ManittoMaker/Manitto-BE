@@ -13,7 +13,8 @@ public enum SwaggerResponseDescription {
     ))),
     MATCH_START(new LinkedHashSet<>(Set.of(
             ErrorCode.GROUP_NOT_FOUND,
-            ErrorCode.MATCH_MEMBER_NAME_DUPLICATED
+            ErrorCode.MATCH_MEMBER_NAME_DUPLICATED,
+            ErrorCode.MATCH_ALREADY_EXIST
     )));
 
     private Set<ErrorCode> errorCodeList;

@@ -158,4 +158,28 @@ class MatchServiceTest {
                 .extracting(e -> ((CustomException) e).getErrorCode())
                 .isEqualTo(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
     }
+
+    @Test
+    void matchStart_이미_매칭된_그룹() {
+        // given
+        String leaderName = "leader";
+        String groupName = "group";
+        String password = "password";
+
+        String member1 = "name1";
+        String member2 = "name2";
+        MatchStartReq req = MatchDtoMother.createMatchStartReq(List.of(member1, member2));
+
+        Group group = Group.create(leaderName, groupName, password);
+        groupRepository.save(group);
+        matchService.matchStart(group.getId(), req);
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> matchService.matchStart(group.getId(), req))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.MATCH_ALREADY_EXIST);
+    }
 }
