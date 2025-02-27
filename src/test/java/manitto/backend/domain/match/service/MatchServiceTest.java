@@ -6,9 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import manitto.backend.config.mongo.EnableMongoTestServer;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupRepository;
-import manitto.backend.domain.group.service.GroupValidator;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
 import manitto.backend.domain.match.dto.response.MatchAllResultRes;
@@ -16,20 +16,16 @@ import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
 import manitto.backend.domain.match.repository.MatchRepository;
-import manitto.backend.domain.match.repository.MatchTemplateRepository;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
 import manitto.backend.testUtil.MatchDtoMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@DataMongoTest
-@TestPropertySource(properties = "spring.mongodb.embedded.version=4.0.2")
-@Import({MatchService.class, MatchTemplateRepository.class, MatchValidator.class, GroupValidator.class})
+@SpringBootTest
+@EnableMongoTestServer
 class MatchServiceTest {
 
     @Autowired

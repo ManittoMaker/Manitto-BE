@@ -35,6 +35,8 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    testImplementation 'de.bwaldvogel:mongo-java-server:1.46.0' // 몽고 메모리 환경으로 테스트
 }
 
 tasks.named('test') {
