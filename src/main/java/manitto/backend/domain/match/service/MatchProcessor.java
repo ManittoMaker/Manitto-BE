@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 import manitto.backend.domain.match.entity.MatchResult;
+import manitto.backend.global.util.PasswordProvider;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +18,7 @@ public class MatchProcessor {
         return IntStream.range(0, names.size())
                 .mapToObj(i -> MatchResult.create(
                         names.get(i),
-                        "password",
+                        PasswordProvider.generatePassword(),
                         names.get((i + 1) % names.size())
                 ))
                 .toList();
