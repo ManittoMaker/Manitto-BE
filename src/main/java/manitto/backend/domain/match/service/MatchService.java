@@ -1,9 +1,6 @@
 package manitto.backend.domain.match.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.group.service.GroupValidator;
 import manitto.backend.domain.match.dto.mapper.MatchDtoMapper;
@@ -26,6 +23,7 @@ public class MatchService {
 
     private final MatchValidator matchValidator;
     private final GroupValidator groupValidator;
+    private final MatchProcessor matchProcessor;
 
     public MatchGetResultRes getUserResult(String groupId, String name, MatchGetResultReq req) {
         Match match = matchTemplateRepository.findMatchResultByGroupIdAndGiverAndPassword(
@@ -37,18 +35,9 @@ public class MatchService {
 
     public MatchAllResultRes matchStart(String groupId, MatchStartReq req) {
         groupValidator.validateExists(groupId);
-        List<String> names = new ArrayList<>(req.getNames());
-        matchValidator.validateDuplicateName(names);
+        matchValidator.validateDuplicateName(req.getNames());
 
-        Collections.shuffle(names);
-        List<MatchResult> matchResults = IntStream.range(0, names.size())
-                .mapToObj(i ->
-                        MatchResult.create(
-                                names.get(i),
-                                "password",
-                                names.get((i + 1) % names.size())
-                        ))
-                .toList();
+        List<MatchResult> matchResults = matchProcessor.matching(req.getNames());
         Match match = Match.create(groupId, matchResults);
         matchRepository.save(match);
 
