@@ -10,16 +10,16 @@ import manitto.backend.domain.match.dto.response.MatchAllResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
-import manitto.backend.domain.match.repository.MatchRepository;
 import manitto.backend.domain.match.repository.MatchTemplateRepository;
+import manitto.backend.global.repository.GlobalMongoTemplateRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MatchService {
 
-    private final MatchRepository matchRepository;
     private final MatchTemplateRepository matchTemplateRepository;
+    private final GlobalMongoTemplateRepository globalMongoTemplateRepository;
 
     private final MatchValidator matchValidator;
     private final GroupValidator groupValidator;
@@ -40,7 +40,7 @@ public class MatchService {
 
         List<MatchResult> matchResults = matchProcessor.matching(req.getNames());
         Match match = Match.create(groupId, matchResults);
-        matchRepository.save(match);
+        match = globalMongoTemplateRepository.saveWithoutDuplicatedId(match, Match.class);
 
         return MatchDtoMapper.toMatchAllResultRes(groupId, matchResults);
     }

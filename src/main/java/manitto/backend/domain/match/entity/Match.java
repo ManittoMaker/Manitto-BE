@@ -24,6 +24,10 @@ public class Match extends BaseEntity {
     private String groupId;
     private List<MatchResult> matches;
 
+    @Override
+    public void generateNewId() {
+        this.id = generateFirestoreId();
+    }
 
     public static Match create(String groupId, List<MatchResult> matches) {
         if (matches == null || matches.size() < 2) {

@@ -24,6 +24,10 @@ public class Group extends BaseEntity {
     private String groupName;
     private String password;
 
+    @Override
+    public void generateNewId() {
+        this.id = generateFirestoreId();
+    }
 
     public static Group create(String leaderName, String groupName, String password) {
         return Group.builder()

@@ -14,6 +14,10 @@ public abstract class BaseEntity {
     @CreatedDate
     private Instant createdAt;
 
+    public abstract String getId();
+
+    public abstract void generateNewId();
+
     protected static String generateFirestoreId() {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 20);
     }

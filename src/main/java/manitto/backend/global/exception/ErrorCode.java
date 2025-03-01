@@ -28,6 +28,7 @@ public enum ErrorCode {
     PARAMETER_GRAMMAR_ERROR(-104, "파라미터 문법 에러입니다.", 422),
     INVALID_TYPE_PARAMETER(-106, "잘못된 타입 파라미터입니다.", 422),
     NOT_FOUND_PATH(-108, "존재하지 않는 API 경로입니다.", 404),
+    CRITICAL_ID_ERROR(-109, "엔티티 ID 설정에 오류가 발생했습니다.", 500),
 
     // Match
     MATCH_NOT_VALID(-300, "유효하지 않은 매치입니다.", 400),
