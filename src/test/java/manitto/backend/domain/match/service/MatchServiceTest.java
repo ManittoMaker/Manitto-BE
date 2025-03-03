@@ -20,10 +20,12 @@ import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
 import manitto.backend.testUtil.MatchDtoMother;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@Tag("integration")
 @SpringBootTest
 @EnableMongoTestServer
 class MatchServiceTest {

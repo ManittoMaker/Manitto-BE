@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@Tag("unit")
 class MatchTest {
 
     @ParameterizedTest
