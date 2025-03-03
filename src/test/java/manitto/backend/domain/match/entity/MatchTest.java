@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
+import manitto.backend.testUtil.MatchFixture;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,9 +19,7 @@ class MatchTest {
     void create_내부_빌더를_통해_정상적으로_생성됨() {
         // given
         String groupId = "groupId";
-        MatchResult matchResult1 = MatchResult.create("giver", "password", "receiver");
-        MatchResult matchResult2 = MatchResult.create("receiver", "password", "giver");
-        List<MatchResult> matchResults = List.of(matchResult1, matchResult2);
+        List<MatchResult> matchResults = MatchFixture.createCorrectMatchResultListFixture();
 
         // when
         Match match = Match.create(groupId, matchResults);
