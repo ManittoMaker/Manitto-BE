@@ -1,0 +1,28 @@
+package manitto.backend.domain.group.entity;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+@Tag("unit")
+class GroupTest {
+
+    @Test
+    void create_내부_빌더를_통해_정상적으로_생성됨() {
+        // given
+        String leaderName = "Leader Name";
+        String groupName = "Group Name";
+        String password = "Password";
+
+        // when
+        Group group = Group.create(leaderName, groupName, password);
+
+        // then
+        assertThat(group).isNotNull();
+        assertThat(group.getLeaderName()).isEqualTo(leaderName);
+        assertThat(group.getGroupName()).isEqualTo(groupName);
+        assertThat(group.getPassword()).isEqualTo(password);
+        assertThat(group.getId()).isNotNull();
+    }
+}
