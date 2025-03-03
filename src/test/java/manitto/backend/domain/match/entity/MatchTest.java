@@ -16,6 +16,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 class MatchTest {
 
     @Test
+    void generateNewId_새로운_아이디가_정상적으로_세팅됨() {
+        String groupId = "groupId";
+        List<MatchResult> matchResults = MatchFixture.createCorrectMatchResultListFixture();
+
+        Match match = Match.create(groupId, matchResults);
+
+        // when
+        String beforeId = match.getId();
+        match.generateNewId();
+        String afterId = match.getId();
+
+        // then
+        assertThat(beforeId).isNotEqualTo(afterId);
+    }
+
+    @Test
     void create_내부_빌더를_통해_정상적으로_생성됨() {
         // given
         String groupId = "groupId";

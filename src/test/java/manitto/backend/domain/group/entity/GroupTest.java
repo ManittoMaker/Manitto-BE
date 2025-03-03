@@ -9,6 +9,24 @@ import org.junit.jupiter.api.Test;
 class GroupTest {
 
     @Test
+    void generateNewId_새로운_아이디가_정상적으로_세팅됨() {
+        // given
+        String leaderName = "Leader Name";
+        String groupName = "Group Name";
+        String password = "Password";
+
+        Group group = Group.create(leaderName, groupName, password);
+
+        // when
+        String beforeId = group.getId();
+        group.generateNewId();
+        String afterId = group.getId();
+
+        // then
+        assertThat(beforeId).isNotEqualTo(afterId);
+    }
+
+    @Test
     void create_내부_빌더를_통해_정상적으로_생성됨() {
         // given
         String leaderName = "Leader Name";
