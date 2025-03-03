@@ -8,8 +8,10 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import manitto.backend.domain.match.entity.MatchResult;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("unit")
 class MatchProcessorTest {
 
     private final MatchProcessor processor = new MatchProcessor();

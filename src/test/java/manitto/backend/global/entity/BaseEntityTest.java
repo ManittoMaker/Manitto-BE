@@ -2,8 +2,10 @@ package manitto.backend.global.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("unit")
 class BaseEntityTest {
 
     @Test
