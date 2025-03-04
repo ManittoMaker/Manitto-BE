@@ -15,6 +15,9 @@ public enum SwaggerResponseDescription {
             ErrorCode.GROUP_NOT_FOUND,
             ErrorCode.MATCH_MEMBER_NAME_DUPLICATED,
             ErrorCode.MATCH_ALREADY_EXIST
+    ))),
+    GROUP_CREATE(new LinkedHashSet<>(Set.of(
+
     )));
 
     private Set<ErrorCode> errorCodeList;
