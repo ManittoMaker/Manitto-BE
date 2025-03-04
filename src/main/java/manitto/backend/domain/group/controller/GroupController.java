@@ -25,7 +25,7 @@ public class GroupController {
 
     @Operation(summary = "그룹 생성", description = "그룹의 리더가 새로운 그룹을 생성합니다.")
     @CustomExceptionDescription(SwaggerResponseDescription.GROUP_CREATE)
-    @PostMapping("/")
+    @PostMapping("")
     public SuccessResponse<GroupCreateRes> create(
             @Validated @RequestBody GroupCreateReq req
     ) {
