@@ -36,20 +36,4 @@ public class MatchTemplateRepository {
 
         return matches.get(0);
     }
-
-    public Match saveWithoutDuplicatedId(Match match) {
-        int retry = 5;
-        while (retry > 0) {
-            Query query = new Query(Criteria.where("_id").is(match.getId()));
-            Match existMatch = mongoTemplate.findOne(query, Match.class);
-
-            if (existMatch == null) {
-                return mongoTemplate.save(match);
-            }
-
-            match.generateNewId();
-            retry--;
-        }
-        throw new CustomException(ErrorCode.CRITICAL_ID_ERROR);
-    }
 }
