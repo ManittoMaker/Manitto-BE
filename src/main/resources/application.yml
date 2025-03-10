@@ -1,6 +1,6 @@
 spring:
   profiles:
-    default: local
+    default: prod
 
   # 공통
   data:
