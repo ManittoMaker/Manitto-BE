@@ -31,7 +31,7 @@ import org.springframework.web.method.HandlerMethod;
                 version = "1.0"
         ),
         servers = {
-                @Server(url = "https://jghs01.mooo.com/", description = "API 서버 주소"),
+                @Server(url = "https://jghs01.mooo.com:24101/", description = "API 서버 주소"),
                 @Server(url = "http://localhost:8080/", description = "로컬 주소"),
         }
 )
