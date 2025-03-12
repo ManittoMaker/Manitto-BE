@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Content;
@@ -28,7 +29,11 @@ import org.springframework.web.method.HandlerMethod;
                 title = "마니또메이커 백엔드 API 명세서",
                 description = "springdoc을 이용한 Swagger API 문서입니다.",
                 version = "1.0"
-        )
+        ),
+        servers = {
+                @Server(url = "https://jghs01.mooo.com/", description = "API 서버 주소"),
+                @Server(url = "http://localhost:8080/", description = "로컬 주소"),
+        }
 )
 @Configuration
 public class SwaggerConfig {
