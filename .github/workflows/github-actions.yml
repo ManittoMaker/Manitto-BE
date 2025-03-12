@@ -42,6 +42,7 @@ jobs:
 
   clean:
     runs-on: self-hosted
+    needs: build-and-deploy
     steps:
       - name: Cleanup Previous Workspace
         run: rm -rf ./*
