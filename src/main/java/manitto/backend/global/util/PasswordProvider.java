@@ -29,6 +29,6 @@ public class PasswordProvider {
     }
 
     public static String generatePassword() {
-        return getRandomAnimal() + getRandomColor();
+        return getRandomColor() + getRandomAnimal();
     }
 }
