@@ -28,7 +28,7 @@ public class MatchController {
 
     private final MatchService matchService;
 
-    @Operation(summary = "매칭 결과 조회", description = "특정 그룹의 단일 사용자에 대한 매칭 결과를 조회합니다.")
+    @Operation(summary = "매칭 결과 조회(개인)", description = "특정 그룹의 단일 사용자에 대한 매칭 결과를 조회합니다.")
     @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_USER_RESULT)
     @GetMapping("/{groupId}/result/user/{name}")
     public SuccessResponse<MatchGetResultRes> getUserResult(
