@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import manitto.backend.domain.match.entity.Match;
+import manitto.backend.domain.match.entity.MatchResult;
 import manitto.backend.domain.match.repository.MatchRepository;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
@@ -83,5 +85,39 @@ class MatchValidatorTest {
                 .isInstanceOf(CustomException.class)
                 .extracting(e -> ((CustomException) e).getErrorCode())
                 .isEqualTo(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
+    }
+
+    @Test
+    void validateExists_정상_특정_그룹_id를_가진_매치가_존재함() {
+        // given
+        String groupId = "groupId";
+        List<MatchResult> matchResults = List.of(
+                MatchResult.create("giver1", "password1", "receiver1"),
+                MatchResult.create("giver2", "password2", "receiver2"));
+
+        when(matchRepository.getMatchByGroupId(groupId))
+                .thenReturn(Match.create(groupId, matchResults));
+
+        // when
+
+        // then
+        assertThatCode(() -> matchValidator.validateExists(groupId))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void validateExists_에러_특정_그룹_id를_가진_매치가_존재하지_않음() {
+        // given
+        String groupId = "groupId";
+        when(matchRepository.getMatchByGroupId(groupId))
+                .thenReturn(null);
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> matchValidator.validateExists(groupId))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.MATCH_NOT_FOUND);
     }
 }
