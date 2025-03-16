@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GroupRepository extends MongoRepository<Group, String> {
 
+    Group getGroupByLeaderNameAndGroupNameAndPassword(String groupName, String LeaderName, String password);
 }

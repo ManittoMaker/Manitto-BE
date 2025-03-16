@@ -3,9 +3,11 @@ package manitto.backend.domain.match.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
 import manitto.backend.domain.match.dto.response.MatchAllResultRes;
+import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.service.MatchService;
 import manitto.backend.global.config.annotation.CustomExceptionDescription;
@@ -47,5 +49,14 @@ public class MatchController {
             @Validated @RequestBody MatchStartReq req
     ) {
         return SuccessResponse.ok(matchService.matchStart(groupId, req));
+    }
+
+    @Operation(summary = "기존 그룹 전체 매칭 결과 조회", description = "특정 그룹의 모든 사용자에 대한 매칭 결과를 조회합니다.")
+    @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_GROUP_RESULT)
+    @GetMapping("/results")
+    public SuccessResponse<MatchGetGroupResultRes> getGroupResult(
+            @Validated @RequestBody MatchGetGroupResultReq req
+    ) {
+        return SuccessResponse.ok(matchService.getGroupResult(req));
     }
 }
