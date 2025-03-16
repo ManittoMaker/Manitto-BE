@@ -2,6 +2,7 @@ package manitto.backend.domain.match.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.match.entity.Match;
@@ -30,11 +31,8 @@ public class MatchValidator {
     }
 
     public Match validateExists(String groupId) {
-        Match match = matchRepository.getMatchByGroupId(groupId);
-        if (match == null) {
-            throw new CustomException(ErrorCode.MATCH_NOT_FOUND);
-        }
-        return match;
+        return Optional.ofNullable(matchRepository.getMatchByGroupId(groupId))
+                .orElseThrow(() -> new CustomException(ErrorCode.MATCH_NOT_FOUND));
     }
 
 }
