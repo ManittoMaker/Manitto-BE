@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 import manitto.backend.config.mongo.EnableMongoTestServer;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupRepository;
+import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
 import manitto.backend.domain.match.dto.response.MatchAllResultRes;
+import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
@@ -116,13 +118,9 @@ class MatchServiceTest {
         MatchGetGroupResultRes result = matchService.getGroupResult(req);
 
         // then
-        assertThat(result.getGroup()).isNotNull;
-        assertThat(result.getMatch()).isNotNull;
+        assertThat(result.getMatches()).isNotNull();
 
-        assertThat(result.getGroup().getGroupId()).isEqualTo(group.getId());
-        assertThat(result.getMatch().getGroupId()).isEqualTo(group.getId());
-
-        List<MatchResult> matchesResult = result.getMatch().getMatches();
+        List<MatchResult> matchesResult = result.getMatches();
 
         for (int i = 0; i < matchesResult.size(); i++) {
             assertThat(matchesResult.get(i).getGiver()).isEqualTo(matches.get(i).getGiver());
