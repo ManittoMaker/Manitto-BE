@@ -96,7 +96,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getGroupResults_정상_응답() {
+    void getGroupResult_정상_응답() {
         // given
         String leaderName = "리더명";
         String groupName = "그룹명";
@@ -118,9 +118,9 @@ class MatchServiceTest {
         MatchGetGroupResultRes result = matchService.getGroupResult(req);
 
         // then
-        assertThat(result.getMatches()).isNotNull();
+        assertThat(result.getResult()).isNotNull();
 
-        List<MatchResult> matchesResult = result.getMatches();
+        List<MatchResult> matchesResult = result.getResult();
 
         for (int i = 0; i < matchesResult.size(); i++) {
             assertThat(matchesResult.get(i).getGiver()).isEqualTo(matches.get(i).getGiver());

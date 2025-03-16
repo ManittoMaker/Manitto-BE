@@ -11,5 +11,5 @@ import manitto.backend.domain.match.entity.MatchResult;
 public class MatchGetGroupResultRes {
 
     @Schema(description = "그룹 전체 매칭 결과")
-    private List<MatchResult> matches;
+    private List<MatchResult> result;
 }
