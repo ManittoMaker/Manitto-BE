@@ -16,10 +16,10 @@ public class GroupTemplateRepository {
 
     private final MongoTemplate mongoTemplate;
 
-    public Group findGroupByGroupNameAndLeaderNameAndPassword(String groupName, String leaderName, String password) {
+    public Group findGroupByLeaderNameAndGroupNameAndPassword(String leaderName, String groupName, String password) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("groupName").is(groupName));
         query.addCriteria(Criteria.where("leaderName").is(leaderName));
+        query.addCriteria(Criteria.where("groupName").is(groupName));
         query.addCriteria(Criteria.where("password").is(password));
         List<Group> groups = mongoTemplate.find(query, Group.class);
 

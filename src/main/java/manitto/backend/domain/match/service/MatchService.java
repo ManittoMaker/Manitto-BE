@@ -51,7 +51,7 @@ public class MatchService {
     }
 
     public MatchGetGroupResultRes getGroupResult(MatchGetGroupResultReq req) {
-        Group group = groupTemplateRepository.findGroupByGroupNameAndLeaderNameAndPassword(req.getLeaderName(),
+        Group group = groupTemplateRepository.findGroupByLeaderNameAndGroupNameAndPassword(req.getLeaderName(),
                 req.getGroupName(), req.getPassword());
         Match match = matchTemplateRepository.findMatchByGroupId(group.getId());
 
