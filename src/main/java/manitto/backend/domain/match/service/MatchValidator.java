@@ -2,10 +2,8 @@ package manitto.backend.domain.match.service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.repository.MatchRepository;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
@@ -28,11 +26,6 @@ public class MatchValidator {
         if (names.size() != uniqueNames.size()) {
             throw new CustomException(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
         }
-    }
-
-    public Match validateExists(String groupId) {
-        return Optional.ofNullable(matchRepository.getMatchByGroupId(groupId))
-                .orElseThrow(() -> new CustomException(ErrorCode.MATCH_NOT_FOUND));
     }
 
 }
