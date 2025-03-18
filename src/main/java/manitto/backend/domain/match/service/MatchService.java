@@ -2,11 +2,15 @@ package manitto.backend.domain.match.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import manitto.backend.domain.group.entity.Group;
+import manitto.backend.domain.group.repository.GroupTemplateRepository;
 import manitto.backend.domain.group.service.GroupValidator;
 import manitto.backend.domain.match.dto.mapper.MatchDtoMapper;
+import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
 import manitto.backend.domain.match.dto.response.MatchAllResultRes;
+import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
@@ -20,6 +24,7 @@ public class MatchService {
 
     private final MatchTemplateRepository matchTemplateRepository;
     private final GlobalMongoTemplateRepository globalMongoTemplateRepository;
+    private final GroupTemplateRepository groupTemplateRepository;
 
     private final MatchValidator matchValidator;
     private final GroupValidator groupValidator;
@@ -43,5 +48,13 @@ public class MatchService {
         match = globalMongoTemplateRepository.saveWithoutDuplicatedId(match, Match.class);
 
         return MatchDtoMapper.toMatchAllResultRes(groupId, matchResults);
+    }
+
+    public MatchGetGroupResultRes getGroupResult(MatchGetGroupResultReq req) {
+        Group group = groupTemplateRepository.findGroupByLeaderNameAndGroupNameAndPassword(req.getLeaderName(),
+                req.getGroupName(), req.getPassword());
+        Match match = matchTemplateRepository.findMatchByGroupId(group.getId());
+
+        return MatchDtoMapper.toMatchGetGroupResultRes(match.getMatches());
     }
 }
