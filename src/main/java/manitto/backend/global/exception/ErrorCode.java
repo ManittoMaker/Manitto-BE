@@ -39,6 +39,7 @@ public enum ErrorCode {
 
     // Group
     GROUP_NOT_FOUND(-400, "조회된 그룹이 없습니다.", 406),
+    GROUP_INTEGRITY_VIOLATION(-402, "유효하지 않은 그룹 정보가 검출되었습니다.", 406),
     ;
 
     private final int errorCode;

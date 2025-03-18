@@ -27,4 +27,5 @@ public class MatchValidator {
             throw new CustomException(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
         }
     }
+
 }

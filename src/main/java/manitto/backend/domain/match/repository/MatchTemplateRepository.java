@@ -36,4 +36,19 @@ public class MatchTemplateRepository {
 
         return matches.get(0);
     }
+
+    public Match findMatchByGroupId(String groupId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("groupId").is(groupId));
+        List<Match> matches = mongoTemplate.find(query, Match.class);
+
+        if (matches.isEmpty()) {
+            throw new CustomException(ErrorCode.MATCH_NOT_FOUND);
+        }
+        if (matches.size() > 1) {
+            throw new CustomException(ErrorCode.MATCH_INTEGRITY_VIOLATION);
+        }
+
+        return matches.get(0);
+    }
 }
