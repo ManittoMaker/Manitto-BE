@@ -17,11 +17,7 @@ public class GroupService {
 
     public GroupCreateRes create(GroupCreateReq req) {
 
-        String leaderName = req.getLeaderName();
-        String groupName = req.getGroupName();
-        String password = PasswordProvider.generatePassword();
-
-        Group group = Group.create(leaderName, groupName, password);
+        Group group = Group.create(req.getLeaderName(), req.getGroupName(), PasswordProvider.generatePassword());
         group = globalMongoTemplateRepository.saveWithoutDuplicatedId(group, Group.class);
 
         return GroupDtoMapper.toGroupCreateRes(group.getId());
