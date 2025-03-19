@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Optional;
 import manitto.backend.config.mongo.EnableMongoTestServer;
 import manitto.backend.domain.group.dto.request.GroupCreateReq;
+import manitto.backend.domain.group.dto.response.GroupCountRes;
 import manitto.backend.domain.group.dto.response.GroupCreateRes;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupRepository;
@@ -48,5 +49,16 @@ public class GroupServiceTest {
         assertThat(savedGroup).isPresent();
         assertThat(savedGroup.get().getGroupName()).isEqualTo("포켓몬");
         assertThat(savedGroup.get().getLeaderName()).isEqualTo("팽도리");
+    }
+
+    @Test
+    void count_정상응답() {
+        // given
+
+        // when
+        GroupCountRes result = groupService.count();
+
+        // then
+        assertThat(result.getCount()).isInstanceOf(Integer.class);
     }
 }
