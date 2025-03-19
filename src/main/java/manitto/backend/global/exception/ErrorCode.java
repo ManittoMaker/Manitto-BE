@@ -40,7 +40,7 @@ public enum ErrorCode {
     // Group
     GROUP_NOT_FOUND(-400, "조회된 그룹이 없습니다.", 406),
     GROUP_INTEGRITY_VIOLATION(-402, "유효하지 않은 그룹 정보가 검출되었습니다.", 500),
-    ;
+    GROUP_LEADER_AND_GROUP_NAME_DUPLICATED(-403, "이미 동일한 리더 이름, 그룹 이름을 사용하는 그룹이 존재합니다.", 400);
 
     private final int errorCode;
     private final String message;

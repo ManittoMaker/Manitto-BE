@@ -13,9 +13,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GroupService {
 
+    private final GroupValidator groupValidator;
     private final GlobalMongoTemplateRepository globalMongoTemplateRepository;
 
     public GroupCreateRes create(GroupCreateReq req) {
+
+        groupValidator.validateLeaderAndGroupUnique(req.getLeaderName(), req.getGroupName());
 
         Group group = Group.create(req.getLeaderName(), req.getGroupName(), PasswordProvider.generatePassword());
         group = globalMongoTemplateRepository.saveWithoutDuplicatedId(group, Group.class);
