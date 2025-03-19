@@ -1,6 +1,6 @@
 package manitto.backend.domain.group.dto.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class GroupCreateReq {
 
-    @NotNull
+    @NotBlank
     private String groupName;
 
-    @NotNull
+    @NotBlank
     private String leaderName;
 }
