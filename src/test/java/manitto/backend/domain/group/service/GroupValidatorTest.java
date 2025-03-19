@@ -58,4 +58,38 @@ class GroupValidatorTest {
                 .extracting(e -> ((CustomException) e).getErrorCode())
                 .isEqualTo(ErrorCode.GROUP_NOT_FOUND);
     }
+
+    @Test
+    void validateLeaderAndGroupUnique_정상_입력한_리더_이름과_그룹_이름이_유일함() {
+        // given
+        String leaderName = "새로운리더";
+        String groupName = "새로운그룹";
+
+        when(groupRepository.existsByLeaderNameAndGroupName(leaderName, groupName))
+                .thenReturn(false);
+
+        // when
+
+        // then
+        assertThatCode(() -> groupValidator.validateLeaderAndGroupUnique(leaderName, groupName))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void validateLeaderAndGroupUnique_에러_입력한_리더_이름과_그룹_이름이_유일하지_않음() {
+        // given
+        String leaderName = "이미존재하는리더";
+        String groupName = "이미존재하는그룹";
+
+        when(groupRepository.existsByLeaderNameAndGroupName(leaderName, groupName))
+                .thenReturn(true);
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> groupValidator.validateLeaderAndGroupUnique(leaderName, groupName))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.GROUP_LEADER_AND_GROUP_NAME_DUPLICATED);
+    }
 }

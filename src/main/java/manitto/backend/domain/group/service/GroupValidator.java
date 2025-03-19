@@ -17,4 +17,10 @@ public class GroupValidator {
             throw new CustomException(ErrorCode.GROUP_NOT_FOUND);
         }
     }
+
+    public void validateLeaderAndGroupUnique(String leaderName, String groupName) {
+        if (groupRepository.existsByLeaderNameAndGroupName(leaderName, groupName)) {
+            throw new CustomException(ErrorCode.GROUP_LEADER_AND_GROUP_NAME_DUPLICATED);
+        }
+    }
 }

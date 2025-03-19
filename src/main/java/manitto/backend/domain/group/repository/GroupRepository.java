@@ -4,4 +4,6 @@ import manitto.backend.domain.group.entity.Group;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface GroupRepository extends MongoRepository<Group, String> {
+
+    boolean existsByLeaderNameAndGroupName(String leaderName, String groupName);
 }
