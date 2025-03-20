@@ -10,6 +10,7 @@ import manitto.backend.domain.group.repository.GroupRepository;
 import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
+import manitto.backend.domain.match.dto.response.MatchGetFinalResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
@@ -106,6 +107,40 @@ class MatchServiceTest {
         MatchGetGroupResultRes result = matchService.getGroupResult(req);
 
         // then
+        assertThat(result.getResult()).isNotNull();
+
+        List<MatchResult> matchesResult = result.getResult();
+
+        for (int i = 0; i < matchesResult.size(); i++) {
+            assertThat(matchesResult.get(i).getGiver()).isEqualTo(matches.get(i).getGiver());
+            assertThat(matchesResult.get(i).getPassword()).isEqualTo(matches.get(i).getPassword());
+            assertThat(matchesResult.get(i).getReceiver()).isEqualTo(matches.get(i).getReceiver());
+        }
+    }
+
+    @Test
+    void getFinalResult_정상_응답() {
+        // given
+        String leaderName = "리더명";
+        String groupName = "그룹명";
+        String password = "그룹 비밀번호";
+        Group group = Group.create(leaderName, groupName, password);
+        group = groupRepository.save(group);
+
+        List<MatchResult> matches = new ArrayList<>(List.of(
+                MatchResult.create("멤버1", "멤버1 비밀번호", "멤버2"),
+                MatchResult.create("멤버2", "멤버2 비밀번호", "멤버3"),
+                MatchResult.create("멤버3", "멤버3 비밀번호", "멤버1")
+        ));
+        Match match = Match.create(group.getId(), matches);
+        match = matchRepository.save(match);
+
+        // when
+        MatchGetFinalResultRes result = matchService.getFinalResult(group.getId());
+
+        // then
+        assertThat(result.getLeaderName()).isNotBlank();
+        assertThat(result.getGroupName()).isNotBlank();
         assertThat(result.getResult()).isNotNull();
 
         List<MatchResult> matchesResult = result.getResult();
