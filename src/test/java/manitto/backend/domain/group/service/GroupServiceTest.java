@@ -8,7 +8,6 @@ import manitto.backend.domain.group.dto.request.GroupCreateReq;
 import manitto.backend.domain.group.dto.response.GroupCountRes;
 import manitto.backend.domain.group.dto.response.GroupCreateRes;
 import manitto.backend.domain.group.entity.Group;
-import manitto.backend.domain.group.repository.GroupCountRepository;
 import manitto.backend.domain.group.repository.GroupCountTemplateRepository;
 import manitto.backend.domain.group.repository.GroupRepository;
 import manitto.backend.testUtil.GroupDtoMother;
@@ -27,8 +26,6 @@ public class GroupServiceTest {
     private GroupService groupService;
     @Autowired
     private GroupRepository groupRepository;
-    @Autowired
-    private GroupCountRepository groupCountRepository;
     @Autowired
     private GroupCountTemplateRepository groupCountTemplateRepository;
 
