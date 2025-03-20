@@ -9,11 +9,11 @@ import lombok.Setter;
 public class MatchGetGroupResultReq {
 
     @NotBlank
-    String leaderName;
+    private String leaderName;
 
     @NotBlank
-    String groupName;
+    private String groupName;
 
     @NotBlank
-    String password;
+    private String password;
 }
