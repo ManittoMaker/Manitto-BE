@@ -53,7 +53,7 @@ public class MatchController {
     }
 
     @Operation(summary = "최종 매칭 결과 조회(전체)", description = "그룹 매칭 완료 후 모든 사용자에 대한 매칭 결과를 조회합니다.")
-    @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_GROUP_RESULT)
+    @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_FINAL_RESULT)
     @GetMapping("/{groupId}")
     public SuccessResponse<MatchGetFinalResultRes> getFinalResult(
             @PathVariable("groupId") String groupId
