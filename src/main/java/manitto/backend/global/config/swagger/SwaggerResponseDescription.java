@@ -16,6 +16,11 @@ public enum SwaggerResponseDescription {
             ErrorCode.MATCH_MEMBER_NAME_DUPLICATED,
             ErrorCode.MATCH_ALREADY_EXIST
     ))),
+    MATCH_GET_FINAL_RESULT(new LinkedHashSet<>(Set.of(
+            ErrorCode.GROUP_NOT_FOUND,
+            ErrorCode.MATCH_NOT_FOUND,
+            ErrorCode.MATCH_INTEGRITY_VIOLATION
+    ))),
     MATCH_GET_GROUP_RESULT(new LinkedHashSet<>(Set.of(
             ErrorCode.GROUP_NOT_FOUND,
             ErrorCode.MATCH_NOT_FOUND

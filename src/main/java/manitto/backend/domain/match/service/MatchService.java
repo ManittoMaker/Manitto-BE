@@ -63,8 +63,6 @@ public class MatchService {
     }
 
     public MatchGetFinalResultRes getFinalResult(String groupId) {
-        groupValidator.validateExists(groupId);
-
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new CustomException(ErrorCode.GROUP_NOT_FOUND));
 

@@ -13,6 +13,7 @@ import manitto.backend.domain.match.service.MatchService;
 import manitto.backend.global.config.annotation.CustomExceptionDescription;
 import manitto.backend.global.config.swagger.SwaggerResponseDescription;
 import manitto.backend.global.dto.response.SuccessResponse;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,7 +53,7 @@ public class MatchController {
     }
 
     @Operation(summary = "최종 매칭 결과 조회(전체)", description = "그룹 매칭 완료 후 모든 사용자에 대한 매칭 결과를 조회합니다.")
-    @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_GROUP_RESULT)
+    @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_FINAL_RESULT)
     @GetMapping("/{groupId}")
     public SuccessResponse<MatchGetFinalResultRes> getFinalResult(
             @PathVariable("groupId") String groupId
@@ -64,7 +65,7 @@ public class MatchController {
     @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_GROUP_RESULT)
     @GetMapping("/results")
     public SuccessResponse<MatchGetGroupResultRes> getGroupResult(
-            @Validated @RequestBody MatchGetGroupResultReq req
+            @Validated @ParameterObject MatchGetGroupResultReq req
     ) {
         return SuccessResponse.ok(matchService.getGroupResult(req));
     }
