@@ -7,7 +7,7 @@ import manitto.backend.domain.group.dto.response.GroupCountRes;
 import manitto.backend.domain.group.dto.response.GroupCreateRes;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupCountTemplateRepository;
-import manitto.backend.domain.group.repository.GroupTemplateRepository;
+import manitto.backend.global.repository.GlobalMongoTemplateRepository;
 import manitto.backend.global.util.PasswordProvider;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +16,16 @@ import org.springframework.stereotype.Service;
 public class GroupService {
 
     private final GroupValidator groupValidator;
-    private final GroupTemplateRepository groupTemplateRepository;
     private final GroupCountTemplateRepository groupCountTemplateRepository;
+    private final GlobalMongoTemplateRepository globalMongoTemplateRepository;
 
     public GroupCreateRes create(GroupCreateReq req) {
 
         groupValidator.validateLeaderAndGroupUnique(req.getLeaderName(), req.getGroupName());
 
-        Group group = groupTemplateRepository.create(req.getLeaderName(), req.getGroupName(),
-                PasswordProvider.generatePassword());
+        Group group = Group.create(req.getLeaderName(), req.getGroupName(), PasswordProvider.generatePassword());
+        globalMongoTemplateRepository.saveWithoutDuplicatedId(group, Group.class);
+        groupCountTemplateRepository.updateTotalGroups();
 
         return GroupDtoMapper.toGroupCreateRes(group.getId(), group.getLeaderName(), group.getGroupName(),
                 group.getPassword());
