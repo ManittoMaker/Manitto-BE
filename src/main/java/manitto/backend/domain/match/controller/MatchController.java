@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
-import manitto.backend.domain.match.dto.response.MatchAllResultRes;
+import manitto.backend.domain.match.dto.response.MatchGetFinalResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.service.MatchService;
@@ -44,14 +44,23 @@ public class MatchController {
     @Operation(summary = "매칭 시작", description = "그룹의 매칭을 진행합니다.")
     @CustomExceptionDescription(SwaggerResponseDescription.MATCH_START)
     @PostMapping("/{groupId}")
-    public SuccessResponse<MatchAllResultRes> matchStart(
+    public SuccessResponse<Object> matchStart(
             @PathVariable("groupId") String groupId,
             @Validated @RequestBody MatchStartReq req
     ) {
         return SuccessResponse.ok(matchService.matchStart(groupId, req));
     }
 
-    @Operation(summary = "기존 그룹 전체 매칭 결과 조회", description = "특정 그룹의 모든 사용자에 대한 매칭 결과를 조회합니다.")
+    @Operation(summary = "최종 매칭 결과 조회(전체)", description = "그룹 매칭 완료 후 모든 사용자에 대한 매칭 결과를 조회합니다.")
+    @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_GROUP_RESULT)
+    @GetMapping("/{groupId}")
+    public SuccessResponse<MatchGetFinalResultRes> getFinalResult(
+            @PathVariable("groupId") String groupId
+    ) {
+        return SuccessResponse.ok(matchService.getFinalResult(groupId));
+    }
+
+    @Operation(summary = "기존 그룹 매칭 결과 조회(전체)", description = "특정 그룹의 모든 사용자에 대한 매칭 결과를 조회합니다.")
     @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_GROUP_RESULT)
     @GetMapping("/results")
     public SuccessResponse<MatchGetGroupResultRes> getGroupResult(

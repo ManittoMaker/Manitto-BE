@@ -1,7 +1,7 @@
 package manitto.backend.domain.match.dto.mapper;
 
 import java.util.List;
-import manitto.backend.domain.match.dto.response.MatchAllResultRes;
+import manitto.backend.domain.match.dto.response.MatchGetFinalResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.MatchResult;
@@ -14,15 +14,17 @@ public class MatchDtoMapper {
                 .build();
     }
 
-    public static MatchAllResultRes toMatchAllResultRes(String groupId, List<MatchResult> result) {
-        return MatchAllResultRes.builder()
-                .groupId(groupId)
+    public static MatchGetGroupResultRes toMatchGetGroupResultRes(List<MatchResult> result) {
+        return MatchGetGroupResultRes.builder()
                 .result(result)
                 .build();
     }
 
-    public static MatchGetGroupResultRes toMatchGetGroupResultRes(List<MatchResult> result) {
-        return MatchGetGroupResultRes.builder()
+    public static MatchGetFinalResultRes toMatchGetFinalResultRes(String leaderName, String groupName,
+                                                                  List<MatchResult> result) {
+        return MatchGetFinalResultRes.builder()
+                .leaderName(leaderName)
+                .groupName(groupName)
                 .result(result)
                 .build();
     }
