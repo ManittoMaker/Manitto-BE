@@ -13,6 +13,7 @@ import manitto.backend.domain.match.service.MatchService;
 import manitto.backend.global.config.annotation.CustomExceptionDescription;
 import manitto.backend.global.config.swagger.SwaggerResponseDescription;
 import manitto.backend.global.dto.response.SuccessResponse;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -64,7 +65,7 @@ public class MatchController {
     @CustomExceptionDescription(SwaggerResponseDescription.MATCH_GET_GROUP_RESULT)
     @GetMapping("/results")
     public SuccessResponse<MatchGetGroupResultRes> getGroupResult(
-            @Validated @RequestBody MatchGetGroupResultReq req
+            @Validated @ParameterObject MatchGetGroupResultReq req
     ) {
         return SuccessResponse.ok(matchService.getGroupResult(req));
     }
