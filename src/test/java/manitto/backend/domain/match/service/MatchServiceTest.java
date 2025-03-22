@@ -1,14 +1,17 @@
 package manitto.backend.domain.match.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import manitto.backend.config.mongo.EnableMongoTestServer;
+import manitto.backend.domain.group.dto.response.GroupGetNameRes;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupRepository;
+import manitto.backend.domain.group.service.GroupService;
 import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
@@ -18,6 +21,8 @@ import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
 import manitto.backend.domain.match.repository.MatchRepository;
+import manitto.backend.global.exception.CustomException;
+import manitto.backend.global.exception.ErrorCode;
 import manitto.backend.testUtil.MatchDtoMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -36,6 +41,8 @@ class MatchServiceTest {
     private MatchRepository matchRepository;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private GroupService groupService;
 
     @BeforeEach
     void setUp() {
@@ -127,5 +134,36 @@ class MatchServiceTest {
             assertThat(matchesResult.get(i).getPassword()).isEqualTo(matches.get(i).getPassword());
             assertThat(matchesResult.get(i).getReceiver()).isEqualTo(matches.get(i).getReceiver());
         }
+    }
+
+    @Test
+    void getGroupName_정상_응답() {
+        // given
+        String leaderName = "리더명";
+        String groupName = "그룹명";
+        String password = "그룹 비밀번호";
+        Group group = Group.create(leaderName, groupName, password);
+        group = groupRepository.save(group);
+
+        // when
+        GroupGetNameRes result = groupService.getGroupName(group.getId());
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.getGroupName()).isEqualTo(groupName);
+    }
+
+    @Test
+    void getGroupName_에러_조회_실패() {
+        // given
+        String groupId = "notExistGroupId";
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> groupService.getGroupName(groupId))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.GROUP_NOT_FOUND);
     }
 }

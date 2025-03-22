@@ -6,12 +6,14 @@ import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.group.dto.request.GroupCreateReq;
 import manitto.backend.domain.group.dto.response.GroupCountRes;
 import manitto.backend.domain.group.dto.response.GroupCreateRes;
+import manitto.backend.domain.group.dto.response.GroupGetNameRes;
 import manitto.backend.domain.group.service.GroupService;
 import manitto.backend.global.config.annotation.CustomExceptionDescription;
 import manitto.backend.global.config.swagger.SwaggerResponseDescription;
 import manitto.backend.global.dto.response.SuccessResponse;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +40,14 @@ public class GroupController {
     @GetMapping("/all")
     public SuccessResponse<GroupCountRes> count() {
         return SuccessResponse.ok(groupService.count());
+    }
+
+    @Operation(summary = "그룹명 조회", description = "그룹명을 조회한다.")
+    @CustomExceptionDescription(SwaggerResponseDescription.GROUP_GET_NAME)
+    @GetMapping("/{groupId}/name")
+    public SuccessResponse<GroupGetNameRes> getGroupName(
+            @PathVariable("groupId") String groupId
+    ) {
+        return SuccessResponse.ok(groupService.getGroupName(groupId));
     }
 }
