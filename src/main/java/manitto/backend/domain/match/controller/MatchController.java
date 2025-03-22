@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
+import manitto.backend.domain.match.dto.response.MatchAllResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetFinalResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
@@ -45,7 +46,7 @@ public class MatchController {
     @Operation(summary = "매칭 시작", description = "그룹의 매칭을 진행합니다.")
     @CustomExceptionDescription(SwaggerResponseDescription.MATCH_START)
     @PostMapping("/{groupId}")
-    public SuccessResponse<Object> matchStart(
+    public SuccessResponse<MatchAllResultRes> matchStart(
             @PathVariable("groupId") String groupId,
             @Validated @RequestBody MatchStartReq req
     ) {

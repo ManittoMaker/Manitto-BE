@@ -4,12 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import manitto.backend.config.mongo.EnableMongoTestServer;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupRepository;
 import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
+import manitto.backend.domain.match.dto.response.MatchAllResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetFinalResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
@@ -64,7 +67,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void matchStart_정상_오류_없이_null_반환() {
+    void matchStart_정상_응답_멤버가_2명() {
         // given
         String leaderName = "leader";
         String groupName = "group";
@@ -78,10 +81,19 @@ class MatchServiceTest {
         group = groupRepository.save(group);
 
         // when
-        Object result = matchService.matchStart(group.getId(), req);
+        MatchAllResultRes result = matchService.matchStart(group.getId(), req);
 
         // then
-        assertThat(result).isNull();
+        assertThat(result).isNotNull();
+        assertThat(result.getGroupId()).isEqualTo(group.getId());
+        assertThat(result.getResult())
+                .extracting(MatchResult::getPassword)
+                .doesNotContainNull();
+
+        Map<String, String> matchMap = result.getResult().stream()
+                .collect(Collectors.toMap(MatchResult::getGiver, MatchResult::getReceiver));
+        assertThat(matchMap).containsEntry(member1, member2);
+        assertThat(matchMap).containsEntry(member2, member1);
     }
 
     @Test
