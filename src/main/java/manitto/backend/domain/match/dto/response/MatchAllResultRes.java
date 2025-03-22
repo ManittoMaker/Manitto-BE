@@ -8,14 +8,11 @@ import manitto.backend.domain.match.entity.MatchResult;
 
 @Getter
 @Builder
-public class MatchGetFinalResultRes {
+public class MatchAllResultRes {
 
-    @Schema(description = "리더 이름")
-    private String leaderName;
+    @Schema(description = "그룹 id")
+    private String groupId;
 
-    @Schema(description = "그룹 이름")
-    private String groupName;
-
-    @Schema(description = "매칭 중 전체 매칭 결과")
+    @Schema(description = "매칭 결과")
     private List<MatchResult> result;
 }
