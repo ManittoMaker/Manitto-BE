@@ -21,8 +21,9 @@ public class MatchDtoMapper {
                 .build();
     }
 
-    public static MatchGetGroupResultRes toMatchGetGroupResultRes(List<MatchResult> result) {
+    public static MatchGetGroupResultRes toMatchGetGroupResultRes(String groupId, List<MatchResult> result) {
         return MatchGetGroupResultRes.builder()
+                .groupId(groupId)
                 .result(result)
                 .build();
     }

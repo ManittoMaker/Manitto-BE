@@ -10,6 +10,9 @@ import manitto.backend.domain.match.entity.MatchResult;
 @Builder
 public class MatchGetGroupResultRes {
 
+    @Schema(description = "그룹 Id")
+    private String groupId;
+
     @Schema(description = "그룹 전체 매칭 결과")
     private List<MatchResult> result;
 }
