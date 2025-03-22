@@ -57,6 +57,6 @@ public class MatchService {
                 req.getGroupName(), req.getPassword());
         Match match = matchTemplateRepository.findMatchByGroupId(group.getId());
 
-        return MatchDtoMapper.toMatchGetGroupResultRes(match.getMatches());
+        return MatchDtoMapper.toMatchGetGroupResultRes(group.getId(), match.getMatches());
     }
 }

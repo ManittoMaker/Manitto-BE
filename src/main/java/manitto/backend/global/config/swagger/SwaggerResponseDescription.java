@@ -27,6 +27,9 @@ public enum SwaggerResponseDescription {
     ))),
     GROUP_CREATE(new LinkedHashSet<>(Set.of(
             ErrorCode.GROUP_LEADER_AND_GROUP_NAME_DUPLICATED
+    ))),
+    GROUP_GET_NAME(new LinkedHashSet<>(Set.of(
+
     )));
 
     private Set<ErrorCode> errorCodeList;
