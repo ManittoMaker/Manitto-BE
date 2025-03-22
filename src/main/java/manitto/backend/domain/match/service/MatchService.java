@@ -11,14 +11,11 @@ import manitto.backend.domain.match.dto.request.MatchGetGroupResultReq;
 import manitto.backend.domain.match.dto.request.MatchGetResultReq;
 import manitto.backend.domain.match.dto.request.MatchStartReq;
 import manitto.backend.domain.match.dto.response.MatchAllResultRes;
-import manitto.backend.domain.match.dto.response.MatchGetFinalResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetGroupResultRes;
 import manitto.backend.domain.match.dto.response.MatchGetResultRes;
 import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
 import manitto.backend.domain.match.repository.MatchTemplateRepository;
-import manitto.backend.global.exception.CustomException;
-import manitto.backend.global.exception.ErrorCode;
 import manitto.backend.global.repository.GlobalMongoTemplateRepository;
 import org.springframework.stereotype.Service;
 
@@ -61,14 +58,5 @@ public class MatchService {
         Match match = matchTemplateRepository.findMatchByGroupId(group.getId());
 
         return MatchDtoMapper.toMatchGetGroupResultRes(match.getMatches());
-    }
-
-    public MatchGetFinalResultRes getFinalResult(String groupId) {
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new CustomException(ErrorCode.GROUP_NOT_FOUND));
-
-        Match match = matchTemplateRepository.findMatchByGroupId(group.getId());
-
-        return MatchDtoMapper.toMatchGetFinalResultRes(group.getLeaderName(), group.getGroupName(), match.getMatches());
     }
 }
