@@ -9,6 +9,8 @@ import manitto.backend.domain.group.dto.response.GroupGetNameRes;
 import manitto.backend.domain.group.entity.Group;
 import manitto.backend.domain.group.repository.GroupCountTemplateRepository;
 import manitto.backend.domain.group.repository.GroupRepository;
+import manitto.backend.global.exception.CustomException;
+import manitto.backend.global.exception.ErrorCode;
 import manitto.backend.global.repository.GlobalMongoTemplateRepository;
 import manitto.backend.global.util.PasswordProvider;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,8 @@ public class GroupService {
     }
 
     public GroupGetNameRes getGroupName(String groupId) {
-        return null;
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new CustomException(ErrorCode.GROUP_NOT_FOUND));
+        return GroupDtoMapper.toGroupGetNameRes(group.getGroupName());
     }
 }
