@@ -1,7 +1,7 @@
 package manitto.backend.domain.group.service;
 
 import lombok.RequiredArgsConstructor;
-import manitto.backend.domain.group.dto.GroupDtoMapper.GroupDtoMapper;
+import manitto.backend.domain.group.dto.mapper.GroupDtoMapper;
 import manitto.backend.domain.group.dto.request.GroupCreateReq;
 import manitto.backend.domain.group.dto.response.GroupCountRes;
 import manitto.backend.domain.group.dto.response.GroupCreateRes;

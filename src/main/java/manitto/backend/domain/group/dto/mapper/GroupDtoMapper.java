@@ -1,4 +1,4 @@
-package manitto.backend.domain.group.dto.GroupDtoMapper;
+package manitto.backend.domain.group.dto.mapper;
 
 import manitto.backend.domain.group.dto.response.GroupCountRes;
 import manitto.backend.domain.group.dto.response.GroupCreateRes;
