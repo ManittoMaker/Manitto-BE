@@ -7,3 +7,6 @@ spring:
     mongodb:
       uri: ${DB_URI}
       auto-index-creation: true
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS}
