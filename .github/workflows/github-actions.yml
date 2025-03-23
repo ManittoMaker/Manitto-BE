@@ -36,9 +36,8 @@ jobs:
           echo "${{ secrets.APPLICATION_ENV }}" | base64 --decode > .env
           echo "${{ secrets.DOCKER_COMPOSE }}" | base64 --decode > docker-compose.yml
 
-      - name: Run New Container
-        run: |
-          docker-compose up -d --build
+      - name: Run Deployment Script
+        run: ../deploy.sh
 
   clean:
     runs-on: self-hosted
