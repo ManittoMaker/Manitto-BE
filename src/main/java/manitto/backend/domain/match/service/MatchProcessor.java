@@ -17,9 +17,9 @@ public class MatchProcessor {
 
         return IntStream.range(0, names.size())
                 .mapToObj(i -> MatchResult.create(
-                        names.get(i),
+                        mutableList.get(i),
                         PasswordProvider.generatePassword(),
-                        names.get((i + 1) % names.size())
+                        mutableList.get((i + 1) % mutableList.size())
                 ))
                 .toList();
     }
