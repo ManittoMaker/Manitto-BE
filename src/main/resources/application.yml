@@ -10,3 +10,10 @@ spring:
 
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS}
+
+# 모니터링
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

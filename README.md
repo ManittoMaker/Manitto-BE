@@ -116,4 +116,5 @@ issue 페이지에서 각 커밋을 가독성 좋게 관리하기 위해 다음 
 ## 📝 Swagger API DOCS 명세서
 
 로컬 : http://localhost:8080/swagger-ui/index.html
-운영 : {미배포}/swagger-ui/index.html
+
+운영 : https://jghs01.mooo.com:24101/swagger-ui/index.html
