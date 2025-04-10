@@ -10,6 +10,7 @@ import manitto.backend.global.entity.BaseEntity;
 import manitto.backend.global.exception.CustomException;
 import manitto.backend.global.exception.ErrorCode;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "matches")
@@ -21,6 +22,7 @@ public class Match extends BaseEntity {
 
     @Id
     private String id;
+    @Indexed
     private String groupId;
     private List<MatchResult> matches;
 
