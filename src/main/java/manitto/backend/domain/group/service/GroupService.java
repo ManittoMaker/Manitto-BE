@@ -25,7 +25,6 @@ public class GroupService {
     private final GlobalMongoTemplateRepository globalMongoTemplateRepository;
 
     public GroupCreateRes create(GroupCreateReq req) {
-
         groupValidator.validateLeaderAndGroupUnique(req.getLeaderName(), req.getGroupName());
 
         Group group = Group.create(req.getLeaderName(), req.getGroupName(), PasswordProvider.generatePassword());
