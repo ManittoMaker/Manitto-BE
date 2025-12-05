@@ -34,7 +34,7 @@ public class Group extends BaseEntity {
                 .id(generateFirestoreId())
                 .leaderName(leaderName.trim())
                 .groupName(groupName.trim())
-                .password(password)
+                .password(password.trim())
                 .build();
     }
 }

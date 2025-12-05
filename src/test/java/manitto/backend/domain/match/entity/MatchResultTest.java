@@ -24,4 +24,21 @@ class MatchResultTest {
         assertThat(matchResult.getPassword()).isEqualTo(password);
         assertThat(matchResult.getReceiver()).isEqualTo(receiver);
     }
+
+    @Test
+    void create_앞뒤_공백은_제거됨() {
+        // given
+        String giver = "giver ";
+        String password = "\t\b\rpassword";
+        String receiver = " receiver \n ";
+
+        // when
+        MatchResult matchResult = MatchResult.create(giver, password, receiver);
+
+        // then
+        assertThat(matchResult).isNotNull();
+        assertThat(matchResult.getGiver()).isEqualTo("giver");
+        assertThat(matchResult.getPassword()).isEqualTo("password");
+        assertThat(matchResult.getReceiver()).isEqualTo("receiver");
+    }
 }

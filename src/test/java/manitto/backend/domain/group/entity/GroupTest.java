@@ -43,4 +43,22 @@ class GroupTest {
         assertThat(group.getPassword()).isEqualTo(password);
         assertThat(group.getId()).isNotNull();
     }
+
+    @Test
+    void create_앞뒤_공백은_제거됨() {
+        // given
+        String leaderName = " Leader Name";
+        String groupName = "Group Name\n";
+        String password = "\tPassword  ";
+
+        // when
+        Group group = Group.create(leaderName, groupName, password);
+
+        // then
+        assertThat(group).isNotNull();
+        assertThat(group.getLeaderName()).isEqualTo("Leader Name");
+        assertThat(group.getGroupName()).isEqualTo("Group Name");
+        assertThat(group.getPassword()).isEqualTo("Password");
+        assertThat(group.getId()).isNotNull();
+    }
 }

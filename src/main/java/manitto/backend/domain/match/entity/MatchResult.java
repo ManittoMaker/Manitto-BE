@@ -21,9 +21,9 @@ public class MatchResult {
 
     public static MatchResult create(String giver, String password, String receiver) {
         return MatchResult.builder()
-                .giver(giver)
-                .password(password)
-                .receiver(receiver)
+                .giver(giver.trim())
+                .password(password.trim())
+                .receiver(receiver.trim())
                 .build();
     }
 }
