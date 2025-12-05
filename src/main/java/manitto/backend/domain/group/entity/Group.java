@@ -32,9 +32,9 @@ public class Group extends BaseEntity {
     public static Group create(String leaderName, String groupName, String password) {
         return Group.builder()
                 .id(generateFirestoreId())
-                .leaderName(leaderName)
-                .groupName(groupName)
-                .password(password)
+                .leaderName(leaderName.trim())
+                .groupName(groupName.trim())
+                .password(password.trim())
                 .build();
     }
 }
