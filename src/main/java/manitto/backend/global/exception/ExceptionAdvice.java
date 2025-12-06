@@ -51,7 +51,7 @@ public class ExceptionAdvice {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse<List<ParameterData>> handleValidationExceptions(MethodArgumentNotValidException e) {
-        log.warn("[PARAMETER VALIDATION EXCEPTION] class: [{}], message: [{}], localizedMessage: [{}]",
+        log.info("[PARAMETER VALIDATION EXCEPTION] class: [{}], message: [{}], localizedMessage: [{}]",
                 e.getClass().getSimpleName(),
                 e.getMessage(),
                 e.getLocalizedMessage());
@@ -77,7 +77,7 @@ public class ExceptionAdvice {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse<String> handleHttpMessageParsingExceptions(HttpMessageNotReadableException e) {
-        log.warn("[PARAMETER GRAMMAR EXCEPTION] class: [{}], message: [{}]",
+        log.info("[PARAMETER GRAMMAR EXCEPTION] class: [{}], message: [{}]",
                 e.getClass().getSimpleName(),
                 e.getMessage());
 
@@ -90,7 +90,7 @@ public class ExceptionAdvice {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse<String> handleHttpMessageParsingExceptions(MethodArgumentTypeMismatchException e) {
-        log.warn("[METHOD ARGUMENT TYPE EXCEPTION] class: [{}], message: [{}]",
+        log.info("[METHOD ARGUMENT TYPE EXCEPTION] class: [{}], message: [{}]",
                 e.getClass().getSimpleName(),
                 e.getMessage());
 
@@ -110,7 +110,7 @@ public class ExceptionAdvice {
                     e.getOriginException().getMessage(),
                     e.getOriginException().getLocalizedMessage());
         }
-        log.warn("[CUSTOM EXCEPTION] class: [{}], message: [{}]",
+        log.info("[CUSTOM EXCEPTION] class: [{}], message: [{}]",
                 e.getClass().getSimpleName(),
                 errorCode.getMessage());
 
