@@ -2,11 +2,7 @@
 
     <springProfile name="prod">
         <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-                <fieldNames>
-                    <fieldName name="serviceName" value=""/>
-                </fieldNames>
-            </encoder>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
         </appender>
 
         <root level="INFO">
