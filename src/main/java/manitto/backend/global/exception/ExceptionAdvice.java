@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 
 @Slf4j
@@ -128,6 +129,18 @@ public class ExceptionAdvice {
         ErrorResponse<String> body = ErrorResponse.of(NOT_FOUND_PATH, e.getMessage());
         HttpStatus httpStatus = HttpStatus.valueOf(NOT_FOUND_PATH.getHttpCode());
         return new ResponseEntity<>(body, httpStatus);
+    }
+
+    /**
+     * 존재하지 않는 리소스
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected ErrorResponse<ServerErrorData> handleInvalidResourceExceptions(NoResourceFoundException e) {
+        log.warn("[NOT EXIST RESOURCE ERROR] class: [{}], message: [{}]",
+                e.getClass().getSimpleName(),
+                e.getMessage());
+        return ErrorResponse.of(ErrorCode.SERVER_UNTRACKED_ERROR);
     }
 
 }
