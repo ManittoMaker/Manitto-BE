@@ -103,6 +103,49 @@ class MatchServiceTest {
     }
 
     @Test
+    void matchStart_에러_빈_문자열_포함_멤버가_2명() {
+        // given
+        String leaderName = "leader";
+        String groupName = "group";
+        String password = "password";
+
+        String member1 = "name1";
+        String member2 = "";
+        MatchStartReq req = MatchDtoMother.createMatchStartReq(List.of(member1, member2));
+
+        Group group = Group.create(leaderName, groupName, password);
+        group = groupRepository.save(group);
+        String groupId = group.getId();
+
+        // when & then
+        assertThatThrownBy(() -> matchService.matchStart(groupId, req))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.MATCH_MEMBER_SIZE_TOO_SMALL);
+    }
+
+    @Test
+    void matchStart_에러_응답_멤버가_1명() {
+        // given
+        String leaderName = "leader";
+        String groupName = "group";
+        String password = "password";
+
+        String member1 = "name1";
+        MatchStartReq req = MatchDtoMother.createMatchStartReq(List.of(member1));
+
+        Group group = Group.create(leaderName, groupName, password);
+        group = groupRepository.save(group);
+        String groupId = group.getId();
+
+        // when & then
+        assertThatThrownBy(() -> matchService.matchStart(groupId, req))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.MATCH_MEMBER_SIZE_TOO_SMALL);
+    }
+
+    @Test
     void getGroupResult_정상_응답() {
         // given
         String leaderName = "리더명";
