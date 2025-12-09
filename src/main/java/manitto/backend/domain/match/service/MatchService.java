@@ -3,7 +3,6 @@ package manitto.backend.domain.match.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.group.entity.Group;
-import manitto.backend.domain.group.repository.GroupRepository;
 import manitto.backend.domain.group.repository.GroupTemplateRepository;
 import manitto.backend.domain.group.service.GroupValidator;
 import manitto.backend.domain.match.dto.mapper.MatchDtoMapper;
@@ -30,7 +29,6 @@ public class MatchService {
     private final MatchValidator matchValidator;
     private final GroupValidator groupValidator;
     private final MatchProcessor matchProcessor;
-    private final GroupRepository groupRepository;
 
     public MatchGetResultRes getUserResult(String groupId, String name, MatchGetResultReq req) {
         Match match = matchTemplateRepository.findMatchResultByGroupIdAndGiverAndPassword(
@@ -47,7 +45,7 @@ public class MatchService {
 
         List<MatchResult> matchResults = matchProcessor.matching(req.getNames());
         Match match = Match.create(groupId, matchResults);
-        match = globalMongoTemplateRepository.saveWithoutDuplicatedId(match, Match.class);
+        globalMongoTemplateRepository.saveWithoutDuplicatedId(match, Match.class);
 
         return MatchDtoMapper.toMatchAllResultRes(groupId, matchResults);
     }
