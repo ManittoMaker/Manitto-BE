@@ -1,8 +1,8 @@
 package manitto.backend.domain.match.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import manitto.backend.domain.match.repository.MatchRepository;
 import manitto.backend.global.exception.CustomException;
@@ -22,7 +22,10 @@ public class MatchValidator {
     }
 
     public void validateDuplicateName(List<String> names) {
-        Set<String> uniqueNames = new HashSet<>(names);
+        Set<String> uniqueNames = names.stream()
+                .map(String::trim)
+                .collect(Collectors.toSet());
+
         if (names.size() != uniqueNames.size()) {
             throw new CustomException(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
         }
