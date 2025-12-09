@@ -84,4 +84,18 @@ class MatchValidatorTest {
                 .extracting(e -> ((CustomException) e).getErrorCode())
                 .isEqualTo(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
     }
+
+    @Test
+    void validateDuplicateName_에러_trim_수행을_통해_중복된_이름을_검출() {
+        // given
+        List<String> names = List.of("중복된이름", "중복된이름 ", "이름3");
+
+        // when
+
+        // then
+        assertThatThrownBy(() -> matchValidator.validateDuplicateName(names))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.MATCH_MEMBER_NAME_DUPLICATED);
+    }
 }
