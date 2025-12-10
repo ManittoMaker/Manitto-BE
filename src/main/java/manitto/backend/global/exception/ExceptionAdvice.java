@@ -37,7 +37,8 @@ public class ExceptionAdvice {
     protected ErrorResponse<ServerErrorData> handleUntrackedException(Exception e) {
         log.error("[UNTRACKED ERROR] class: [{}], message: [{}]",
                 e.getClass().getSimpleName(),
-                e.getMessage());
+                e.getMessage(),
+                e);
 
         ServerErrorData serverErrorData = ServerErrorData.builder()
                 .errorClass(e.getClass().toString())
@@ -109,7 +110,8 @@ public class ExceptionAdvice {
             log.error("[ORIGIN ERROR] class: [{}], message: [{}], localizedMessage: [{}]",
                     e.getOriginException().getClass().getSimpleName(),
                     e.getOriginException().getMessage(),
-                    e.getOriginException().getLocalizedMessage());
+                    e.getOriginException().getLocalizedMessage(),
+                    e.getOriginException());
         }
         log.info("[CUSTOM EXCEPTION] class: [{}], message: [{}]",
                 e.getClass().getSimpleName(),
