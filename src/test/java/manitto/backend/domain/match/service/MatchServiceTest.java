@@ -75,8 +75,8 @@ class MatchServiceTest {
     @Test
     void matchStart_정상_응답_멤버가_2명() {
         // given
-        String leaderName = "leader";
-        String groupName = "group";
+        String leaderName = "leader\n";
+        String groupName = "\bgroup";
         String password = "password";
 
         String member1 = "name1";
@@ -90,6 +90,9 @@ class MatchServiceTest {
         MatchAllResultRes result = matchService.matchStart(group.getId(), req);
 
         // then
+        assertThat(group.getLeaderName()).isEqualTo("leader");
+        assertThat(group.getGroupName()).isEqualTo("group");
+
         assertThat(result).isNotNull();
         assertThat(result.getGroupId()).isEqualTo(group.getId());
         assertThat(result.getResult())
