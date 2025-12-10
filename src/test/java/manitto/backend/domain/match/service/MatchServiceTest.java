@@ -117,7 +117,9 @@ class MatchServiceTest {
         group = groupRepository.save(group);
         String groupId = group.getId();
 
-        // when & then
+        // when
+
+        // then
         assertThatThrownBy(() -> matchService.matchStart(groupId, req))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
@@ -138,7 +140,9 @@ class MatchServiceTest {
         group = groupRepository.save(group);
         String groupId = group.getId();
 
-        // when & then
+        // when
+
+        // then
         assertThatThrownBy(() -> matchService.matchStart(groupId, req))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")

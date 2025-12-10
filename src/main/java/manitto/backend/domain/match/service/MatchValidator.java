@@ -32,7 +32,7 @@ public class MatchValidator {
     }
 
     public void validateMinimumSize(List<String> names) {
-        if (names == null || names.size() < 2) {
+        if (names.size() < 2) {
             throw new CustomException(ErrorCode.MATCH_MEMBER_SIZE_TOO_SMALL);
         }
     }
