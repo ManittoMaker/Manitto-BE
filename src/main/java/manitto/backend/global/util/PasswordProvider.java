@@ -2,7 +2,9 @@ package manitto.backend.global.util;
 
 import java.util.List;
 import java.util.Random;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class PasswordProvider {
 
     private static final Random random = new Random();
