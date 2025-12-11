@@ -1,5 +1,7 @@
 package manitto.backend.domain.group.entity;
 
+import static manitto.backend.global.util.StringProcessor.isMeaningful;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import manitto.backend.global.entity.BaseEntity;
+import manitto.backend.global.exception.CustomException;
+import manitto.backend.global.exception.ErrorCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -30,6 +34,10 @@ public class Group extends BaseEntity {
     }
 
     public static Group create(String leaderName, String groupName, String password) {
+        if (!isMeaningful(leaderName) || !isMeaningful(groupName) || !isMeaningful(password)) {
+            throw new CustomException(ErrorCode.INVALID_PARAMETER);
+        }
+
         return Group.builder()
                 .id(generateFirestoreId())
                 .leaderName(leaderName.trim())
