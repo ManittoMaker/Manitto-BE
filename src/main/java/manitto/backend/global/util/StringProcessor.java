@@ -2,6 +2,7 @@ package manitto.backend.global.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 
@@ -14,6 +15,7 @@ public class StringProcessor {
         }
 
         return list.stream()
+                .filter(Objects::nonNull)
                 .map(String::trim)
                 .filter(s -> !s.isBlank())
                 .collect(Collectors.toList());
