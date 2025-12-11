@@ -1,9 +1,14 @@
 package manitto.backend.domain.group.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import manitto.backend.global.exception.CustomException;
+import manitto.backend.global.exception.ErrorCode;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @Tag("unit")
 class GroupTest {
@@ -60,5 +65,32 @@ class GroupTest {
         assertThat(group.getGroupName()).isEqualTo("Group Name");
         assertThat(group.getPassword()).isEqualTo("Password");
         assertThat(group.getId()).isNotNull();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "",          // empty
+            "   ",       // whitespace only
+            "\t",        // tab
+            "\n",        // newline
+            "\b",        // control char
+            "\u0007",    // bell
+            " \n\b\t"    // whitespace + control
+    })
+    void create_의미_없는_입력값(String invalidInput) {
+        assertThatThrownBy(() -> Group.create(invalidInput, "Group", "Pass"))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.INVALID_PARAMETER);
+
+        assertThatThrownBy(() -> Group.create("Leader", invalidInput, "Pass"))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.INVALID_PARAMETER);
+
+        assertThatThrownBy(() -> Group.create("Leader", "Group", invalidInput))
+                .isInstanceOf(CustomException.class)
+                .extracting(e -> ((CustomException) e).getErrorCode())
+                .isEqualTo(ErrorCode.INVALID_PARAMETER);
     }
 }
