@@ -16,7 +16,7 @@ import manitto.backend.domain.match.entity.Match;
 import manitto.backend.domain.match.entity.MatchResult;
 import manitto.backend.domain.match.repository.MatchTemplateRepository;
 import manitto.backend.global.repository.GlobalMongoTemplateRepository;
-import manitto.backend.global.util.StringListProcessor;
+import manitto.backend.global.util.StringProcessor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,7 +43,7 @@ public class MatchService {
         groupValidator.validateExists(groupId);
         matchValidator.validateAlreadyExists(groupId);
 
-        List<String> names = StringListProcessor.filterNotBlank(req.getNames());
+        List<String> names = StringProcessor.filterNotBlank(req.getNames());
         matchValidator.validateMinimumSize(names);
         matchValidator.validateDuplicateName(names);
 
