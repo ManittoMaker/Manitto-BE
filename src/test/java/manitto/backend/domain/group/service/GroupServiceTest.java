@@ -1,8 +1,10 @@
 package manitto.backend.domain.group.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import manitto.backend.config.mongo.EnableMongoTestServer;
 import manitto.backend.domain.group.dto.request.GroupCreateReq;
 import manitto.backend.domain.group.dto.response.GroupCountRes;
@@ -55,7 +57,7 @@ public class GroupServiceTest {
     }
 
     @Test
-    void create_정상_그룹을_생성하면_groupCount가_1_증가한다() {
+    void create_정상_그룹을_생성하면_groupCount가_비동기로_1_증가한다() {
         //given
         String groupName = "포켓몬";
         String leaderName = "팽도리";
@@ -70,7 +72,9 @@ public class GroupServiceTest {
         assertThat(result).isNotNull();
         assertThat(result.getGroupId()).isNotBlank();
 
-        assertThat(groupCountTemplateRepository.getTotalGroups()).isEqualTo(beforeCreate + 1);
+        await().atMost(1, TimeUnit.SECONDS)
+                .untilAsserted(() -> assertThat(groupCountTemplateRepository.getTotalGroups())
+                        .isEqualTo(beforeCreate + 1));
     }
 
     @Test
