@@ -22,6 +22,9 @@ public class GroupCountIncrementer {
         long delay = INITIAL_DELAY_MS;
         for (int attempt = 0; attempt < MAX_RETRY; attempt++) {
             try {
+                if (attempt == 1) {
+                    log.info("[GROUP COUNT UPDATE FAILED] 재시도 수행");
+                }
                 groupCountTemplateRepository.updateTotalGroups();
                 return;
             } catch (Exception e) {
@@ -30,7 +33,9 @@ public class GroupCountIncrementer {
                     return;
                 }
             }
-            if (!sleep(delay)) return;
+            if (!sleep(delay)) {
+                return;
+            }
             delay *= 2;
         }
     }
