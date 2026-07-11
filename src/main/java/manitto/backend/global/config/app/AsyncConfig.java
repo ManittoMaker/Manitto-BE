@@ -1,6 +1,7 @@
 package manitto.backend.global.config.app;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -19,6 +20,9 @@ public class AsyncConfig {
         executor.setMaxPoolSize(3);
         executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("count-update-");
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setAwaitTerminationSeconds(20);
         executor.initialize();
         return executor;
     }
