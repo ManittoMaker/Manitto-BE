@@ -21,6 +21,7 @@ public class GroupService {
 
     private final GroupValidator groupValidator;
     private final GroupRepository groupRepository;
+    private final GroupCountIncrementer groupCountIncrementer;
     private final GroupCountTemplateRepository groupCountTemplateRepository;
     private final GlobalMongoTemplateRepository globalMongoTemplateRepository;
 
@@ -29,7 +30,7 @@ public class GroupService {
 
         Group group = Group.create(req.getLeaderName(), req.getGroupName(), PasswordProvider.generatePassword());
         globalMongoTemplateRepository.saveWithoutDuplicatedId(group, Group.class);
-        groupCountTemplateRepository.updateTotalGroups();
+        groupCountIncrementer.increment();
 
         return GroupDtoMapper.toGroupCreateRes(group.getId(), group.getLeaderName(), group.getGroupName(),
                 group.getPassword());
