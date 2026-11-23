@@ -81,4 +81,14 @@ class StringProcessorTest {
                     .isFalse();
         }
     }
+
+    @Test
+    void normalize_앞뒤_공백과_제어_문자를_제거하고_가운데는_유지한다() {
+        assertThat(StringProcessor.normalize(" 동물 ")).isEqualTo("동물");
+        assertThat(StringProcessor.normalize("\t동물\n")).isEqualTo("동물");
+        assertThat(StringProcessor.normalize("동물\u3000")).isEqualTo("동물");
+        assertThat(StringProcessor.normalize("\b동물")).isEqualTo("동물");
+        assertThat(StringProcessor.normalize(" 우리 반 ")).isEqualTo("우리 반");
+        assertThat(StringProcessor.normalize(null)).isNull();
+    }
 }
