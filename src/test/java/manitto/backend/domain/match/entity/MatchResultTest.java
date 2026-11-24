@@ -36,7 +36,7 @@ class MatchResultTest {
         // given
         String giver = "giver ";
         String password = "\t\b\rpassword";
-        String receiver = " receiver \n ";
+        String receiver = " receiver \n\u3000";
 
         // when
         MatchResult matchResult = MatchResult.create(giver, password, receiver);
@@ -56,7 +56,8 @@ class MatchResultTest {
             "\n",        // newline
             "\b",        // control char
             "\u0007",    // bell
-            " \n\b\t"    // whitespace + control
+            " \n\b\t",   // whitespace + control
+            "\u3000"     // full-width space
     })
     void create_의미_없는_입력값(String invalidInput) {
         assertThatThrownBy(() -> MatchResult.create(invalidInput, "Password", "Receiver"))
