@@ -7,20 +7,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
-import java.util.stream.Stream;
 import manitto.backend.config.mongo.EnableMongoTestServer;
 import manitto.backend.domain.group.repository.GroupRepository;
 import manitto.backend.global.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 @Tag("integration")
 @SpringBootTest
@@ -44,23 +43,21 @@ class GroupControllerTest {
         createGroup(LEADER_NAME, GROUP_NAME);
     }
 
-    static Stream<Arguments> 앞뒤_공백만_다른_리더명과_그룹명() {
-        return Stream.of(
-                Arguments.of(LEADER_NAME, GROUP_NAME + " "),
-                Arguments.of(LEADER_NAME, " " + GROUP_NAME),
-                Arguments.of(LEADER_NAME + " ", GROUP_NAME),
-                Arguments.of(" " + LEADER_NAME, " " + GROUP_NAME + " "),
-                Arguments.of(LEADER_NAME, "\t" + GROUP_NAME + "\n"),
-                Arguments.of(LEADER_NAME, GROUP_NAME + "　"), // 전각 공백
-                Arguments.of(LEADER_NAME, "\b" + GROUP_NAME)       // 제어 문자
-        );
+    @ParameterizedTest
+    @ValueSource(strings = {
+            " ",         // space
+            "\t",        // tab
+            "\n",        // newline
+            "　",    // full-width space
+            "\b"         // control char
+    })
+    void create_에러_앞뒤_공백만_다른_리더명과_그룹명은_중복으로_판단하고_저장하지_않는다(String blank) throws Exception {
+        assertDuplicated(LEADER_NAME, GROUP_NAME + blank);
+        assertDuplicated(LEADER_NAME, blank + GROUP_NAME);
+        assertDuplicated(LEADER_NAME + blank, GROUP_NAME);
     }
 
-    @ParameterizedTest(name = "리더명=[{0}], 그룹명=[{1}]")
-    @MethodSource("앞뒤_공백만_다른_리더명과_그룹명")
-    void create_에러_앞뒤_공백만_다른_리더명과_그룹명은_중복으로_판단하고_저장하지_않는다(String leaderName, String groupName)
-            throws Exception {
-        // when, then
+    private void assertDuplicated(String leaderName, String groupName) throws Exception {
         createGroup(leaderName, groupName)
                 .andExpect(status().is(ErrorCode.GROUP_LEADER_AND_GROUP_NAME_DUPLICATED.getHttpCode()))
                 .andExpect(jsonPath("$.code").value(ErrorCode.GROUP_LEADER_AND_GROUP_NAME_DUPLICATED.getErrorCode()));
@@ -68,8 +65,7 @@ class GroupControllerTest {
         assertThat(groupRepository.count()).isEqualTo(1);
     }
 
-    private org.springframework.test.web.servlet.ResultActions createGroup(String leaderName, String groupName)
-            throws Exception {
+    private ResultActions createGroup(String leaderName, String groupName) throws Exception {
         String body = objectMapper.writeValueAsString(Map.of("leaderName", leaderName, "groupName", groupName));
         return mockMvc.perform(post("/api/groups")
                 .contentType(MediaType.APPLICATION_JSON)
