@@ -13,9 +13,6 @@ public class StringProcessor {
     private static final Pattern EDGE_BLANK = Pattern.compile(
             "^[\\p{IsWhite_Space}\\p{Cntrl}]+|[\\p{IsWhite_Space}\\p{Cntrl}]+$");
 
-    /**
-     * 앞뒤의 공백과 제어 문자를 제거한다.
-     */
     public static String stripBlank(String s) {
         if (s == null) {
             return null;
