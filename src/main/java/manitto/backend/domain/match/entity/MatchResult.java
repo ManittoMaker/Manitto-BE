@@ -1,6 +1,7 @@
 package manitto.backend.domain.match.entity;
 
 import static manitto.backend.global.util.StringProcessor.isMeaningful;
+import static manitto.backend.global.util.StringProcessor.stripBlank;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,9 +30,9 @@ public class MatchResult {
         }
 
         return MatchResult.builder()
-                .giver(giver.trim())
-                .password(password.trim())
-                .receiver(receiver.trim())
+                .giver(stripBlank(giver))
+                .password(stripBlank(password))
+                .receiver(stripBlank(receiver))
                 .build();
     }
 }

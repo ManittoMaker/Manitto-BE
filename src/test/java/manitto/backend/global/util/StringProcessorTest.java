@@ -83,12 +83,19 @@ class StringProcessorTest {
     }
 
     @Test
-    void normalize_앞뒤_공백과_제어_문자를_제거하고_가운데는_유지한다() {
-        assertThat(StringProcessor.normalize(" 동물 ")).isEqualTo("동물");
-        assertThat(StringProcessor.normalize("\t동물\n")).isEqualTo("동물");
-        assertThat(StringProcessor.normalize("동물\u3000")).isEqualTo("동물");
-        assertThat(StringProcessor.normalize("\b동물")).isEqualTo("동물");
-        assertThat(StringProcessor.normalize(" 우리 반 ")).isEqualTo("우리 반");
-        assertThat(StringProcessor.normalize(null)).isNull();
+    void stripBlank_앞뒤_공백과_제어_문자를_제거하고_가운데는_유지한다() {
+        assertThat(StringProcessor.stripBlank(" 동물 ")).isEqualTo("동물");
+        assertThat(StringProcessor.stripBlank("\t동물\n")).isEqualTo("동물");
+        assertThat(StringProcessor.stripBlank("동물\u3000")).isEqualTo("동물");
+        assertThat(StringProcessor.stripBlank("\b동물")).isEqualTo("동물");
+        assertThat(StringProcessor.stripBlank(" 우리 반 ")).isEqualTo("우리 반");
+        assertThat(StringProcessor.stripBlank(null)).isNull();
+    }
+
+    @Test
+    void filterNotBlank_전각_공백과_제어_문자도_앞뒤에서_제거하고_빈_값은_거른다() {
+        List<String> list = List.of("철수\u3000", "\b영희", "\u3000");
+
+        assertThat(StringProcessor.filterNotBlank(list)).containsExactly("철수", "영희");
     }
 }

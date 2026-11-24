@@ -54,7 +54,7 @@ class GroupTest {
         // given
         String leaderName = " Leader Name";
         String groupName = "Group Name\n";
-        String password = "\tPassword  ";
+        String password = "\tPassword\u3000";
 
         // when
         Group group = Group.create(leaderName, groupName, password);

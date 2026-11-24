@@ -36,7 +36,7 @@ class MatchResultTest {
         // given
         String giver = "giver ";
         String password = "\t\b\rpassword";
-        String receiver = " receiver \n ";
+        String receiver = " receiver \n\u3000";
 
         // when
         MatchResult matchResult = MatchResult.create(giver, password, receiver);
