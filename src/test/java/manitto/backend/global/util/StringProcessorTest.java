@@ -73,7 +73,8 @@ class StringProcessorTest {
                 "\u0000",
                 "\t\b",
                 " \n\b\t",
-                "\r\b "
+                "\r\b ",
+                "\u3000"
         };
 
         for (String input : invalidCases) {

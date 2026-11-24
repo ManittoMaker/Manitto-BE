@@ -45,11 +45,13 @@ class GroupControllerTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            " ",         // space
+            "   ",       // whitespace only
             "\t",        // tab
             "\n",        // newline
-            "　",    // full-width space
-            "\b"         // control char
+            "\b",        // control char
+            "\u0007",    // bell
+            " \n\b\t",   // whitespace + control
+            "\u3000"     // full-width space
     })
     void create_에러_앞뒤_공백만_다른_리더명과_그룹명은_중복으로_판단하고_저장하지_않는다(String blank) throws Exception {
         assertDuplicated(LEADER_NAME, GROUP_NAME + blank);
