@@ -51,7 +51,7 @@ public class ExceptionAdvice {
      * 파라미터 검증 예외
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public ErrorResponse<List<ParameterData>> handleValidationExceptions(MethodArgumentNotValidException e) {
         log.info("[PARAMETER VALIDATION EXCEPTION] class: [{}], message: [{}], localizedMessage: [{}]",
                 e.getClass().getSimpleName(),
@@ -77,7 +77,7 @@ public class ExceptionAdvice {
      * 파라미터 문법 예외
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public ErrorResponse<String> handleHttpMessageParsingExceptions(HttpMessageNotReadableException e) {
         log.info("[PARAMETER GRAMMAR EXCEPTION] class: [{}], message: [{}]",
                 e.getClass().getSimpleName(),
@@ -90,7 +90,7 @@ public class ExceptionAdvice {
      * 매개변수 타입 예외
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public ErrorResponse<String> handleHttpMessageParsingExceptions(MethodArgumentTypeMismatchException e) {
         log.info("[METHOD ARGUMENT TYPE EXCEPTION] class: [{}], message: [{}]",
                 e.getClass().getSimpleName(),

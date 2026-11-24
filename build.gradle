@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.16'
+    id 'org.springframework.boot' version '4.0.10'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -26,13 +26,13 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0' // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3' // Swagger
 
     implementation 'net.logstash.logback:logstash-logback-encoder:9.0'
 
@@ -41,9 +41,10 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.33.0' // 운영과 같은 버전의 임베디드 몽고로 테스트
+    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring4x:4.33.0' // 운영과 같은 버전의 임베디드 몽고로 테스트
 }
 
 tasks.named('test') {

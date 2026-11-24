@@ -5,8 +5,9 @@ spring:
   # 공통
   data:
     mongodb:
-      uri: ${DB_URI}
       auto-index-creation: true
+  mongodb:
+    uri: ${DB_URI}
 
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS}
