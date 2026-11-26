@@ -15,6 +15,8 @@ import manitto.backend.global.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -76,6 +78,22 @@ class MatchControllerTest {
                 .andExpect(jsonPath("$.result.groupId").value(otherGroupId));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "   ",       // whitespace only
+            "\t",        // tab
+            "\n",        // newline
+            "\b",        // control char
+            "\u0007",    // bell
+            " \n\b\t",   // whitespace + control
+            "\u3000"     // full-width space
+    })
+    void getGroupResult_정상_입력값_앞뒤의_공백은_제거하고_조회한다(String blank) throws Exception {
+        getGroupResult(blank + LEADER_NAME, GROUP_NAME + blank, GROUP_PASSWORD + blank)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.groupId").value(groupId));
+    }
+
     @Test
     void getUserResult_에러_매칭에_해당_이름이_없으면_참여자_없음() throws Exception {
         assertError(getUserResult(groupId, "없는 사람", GIVER_PASSWORD), ErrorCode.MATCH_MEMBER_NOT_FOUND);
@@ -89,6 +107,22 @@ class MatchControllerTest {
     @Test
     void getUserResult_에러_그룹에_매칭이_없으면_매칭_없음() throws Exception {
         assertError(getUserResult("notExistGroupId", GIVER, GIVER_PASSWORD), ErrorCode.MATCH_NOT_FOUND);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "   ",       // whitespace only
+            "\t",        // tab
+            "\n",        // newline
+            "\b",        // control char
+            "\u0007",    // bell
+            " \n\b\t",   // whitespace + control
+            "\u3000"     // full-width space
+    })
+    void getUserResult_정상_입력값_앞뒤의_공백은_제거하고_조회한다(String blank) throws Exception {
+        getUserResult(groupId, GIVER + blank, blank + GIVER_PASSWORD)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.receiver").value(RECEIVER));
     }
 
     private String saveGroupWithMatch(String groupPassword) {
