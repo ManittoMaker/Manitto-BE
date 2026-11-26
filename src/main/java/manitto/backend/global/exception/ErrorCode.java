@@ -37,11 +37,14 @@ public enum ErrorCode {
     MATCH_MEMBER_NAME_DUPLICATED(-303, "멤버 이름은 중복되면 안됩니다.", 400),
     MATCH_ALREADY_EXIST(-304, "이미 매칭된 그룹입니다.", 409),
     MATCH_MEMBER_SIZE_TOO_SMALL(-305, "매칭을 위해서는 최소 2명 이상이 필요합니다.", 422),
+    MATCH_MEMBER_NOT_FOUND(-306, "해당 이름으로 등록된 참여자가 없습니다.", 406),
+    MATCH_PASSWORD_MISMATCH(-307, "비밀번호가 일치하지 않습니다.", 401),
 
     // Group
     GROUP_NOT_FOUND(-400, "조회된 그룹이 없습니다.", 406),
     GROUP_INTEGRITY_VIOLATION(-402, "유효하지 않은 그룹 정보가 검출되었습니다.", 500),
     GROUP_LEADER_AND_GROUP_NAME_DUPLICATED(-403, "이미 동일한 리더 이름, 그룹 이름을 사용하는 그룹이 존재합니다.", 400),
+    GROUP_PASSWORD_MISMATCH(-404, "그룹 비밀번호가 일치하지 않습니다.", 401),
     ;
 
     private final int errorCode;
