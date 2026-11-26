@@ -32,11 +32,10 @@ public class MatchService {
     private final MatchProcessor matchProcessor;
 
     public MatchGetResultRes getUserResult(String groupId, String name, MatchGetResultReq req) {
-        Match match = matchTemplateRepository.findMatchResultByGroupIdAndGiverAndPassword(
+        MatchResult matchResult = matchTemplateRepository.findMatchResultByGroupIdAndGiverAndPassword(
                 groupId, name, req.getPassword());
 
-        String receiver = match.getMatches().get(0).getReceiver();
-        return MatchDtoMapper.toMatchGetResultRes(receiver);
+        return MatchDtoMapper.toMatchGetResultRes(matchResult.getReceiver());
     }
 
     public MatchAllResultRes matchStart(String groupId, MatchStartReq req) {

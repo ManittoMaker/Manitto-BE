@@ -9,6 +9,8 @@ import manitto.backend.global.exception.ErrorCode;
 public enum SwaggerResponseDescription {
 
     MATCH_GET_USER_RESULT(new LinkedHashSet<>(Set.of(
+            ErrorCode.MATCH_MEMBER_NOT_FOUND,
+            ErrorCode.MATCH_PASSWORD_MISMATCH,
             ErrorCode.MATCH_INTEGRITY_VIOLATION
     ))),
     MATCH_START(new LinkedHashSet<>(Set.of(
@@ -23,6 +25,7 @@ public enum SwaggerResponseDescription {
     ))),
     MATCH_GET_GROUP_RESULT(new LinkedHashSet<>(Set.of(
             ErrorCode.GROUP_NOT_FOUND,
+            ErrorCode.GROUP_PASSWORD_MISMATCH,
             ErrorCode.MATCH_NOT_FOUND
     ))),
     GROUP_CREATE(new LinkedHashSet<>(Set.of(
