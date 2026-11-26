@@ -43,7 +43,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring4x:4.33.0' // 운영과 같은 버전의 임베디드 몽고로 테스트
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:testcontainers-mongodb'
 }
 
 tasks.named('test') {
