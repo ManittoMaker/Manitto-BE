@@ -13,6 +13,7 @@ import manitto.backend.domain.match.service.MatchService;
 import manitto.backend.global.config.annotation.CustomExceptionDescription;
 import manitto.backend.global.config.swagger.SwaggerResponseDescription;
 import manitto.backend.global.dto.response.SuccessResponse;
+import manitto.backend.global.util.StringProcessor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public class MatchController {
             @PathVariable("name") String name,
             @Validated @ModelAttribute MatchGetResultReq req
     ) {
-        return SuccessResponse.ok(matchService.getUserResult(groupId, name, req));
+        return SuccessResponse.ok(matchService.getUserResult(groupId, StringProcessor.stripBlank(name), req));
     }
 
     @Operation(summary = "매칭 시작", description = "그룹의 매칭을 진행합니다.")

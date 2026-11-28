@@ -45,7 +45,7 @@ class MatchTemplateRepositoryTest {
                 .thenReturn(List.of(match));
 
         // when
-        Match result = matchTemplateRepository.findMatchResultByGroupIdAndGiverAndPassword(
+        MatchResult result = matchTemplateRepository.findMatchResultByGroupIdAndGiverAndPassword(
                 groupId, giver, password);
 
         // then

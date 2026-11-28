@@ -54,7 +54,7 @@ class GroupTest {
         // given
         String leaderName = " Leader Name";
         String groupName = "Group Name\n";
-        String password = "\tPassword  ";
+        String password = "\tPassword\u3000";
 
         // when
         Group group = Group.create(leaderName, groupName, password);
@@ -75,7 +75,8 @@ class GroupTest {
             "\n",        // newline
             "\b",        // control char
             "\u0007",    // bell
-            " \n\b\t"    // whitespace + control
+            " \n\b\t",   // whitespace + control
+            "\u3000"     // full-width space
     })
     void create_의미_없는_입력값(String invalidInput) {
         assertThatThrownBy(() -> Group.create(invalidInput, "Group", "Pass"))

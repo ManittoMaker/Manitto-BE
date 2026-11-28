@@ -1,6 +1,7 @@
 package manitto.backend.domain.group.entity;
 
 import static manitto.backend.global.util.StringProcessor.isMeaningful;
+import static manitto.backend.global.util.StringProcessor.stripBlank;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,9 +41,9 @@ public class Group extends BaseEntity {
 
         return Group.builder()
                 .id(generateFirestoreId())
-                .leaderName(leaderName.trim())
-                .groupName(groupName.trim())
-                .password(password.trim())
+                .leaderName(stripBlank(leaderName))
+                .groupName(stripBlank(groupName))
+                .password(stripBlank(password))
                 .build();
     }
 }

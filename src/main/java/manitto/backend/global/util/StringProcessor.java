@@ -3,11 +3,22 @@ package manitto.backend.global.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class StringProcessor {
+
+    private static final Pattern EDGE_BLANK = Pattern.compile(
+            "^[\\p{IsWhite_Space}\\p{Cntrl}]+|[\\p{IsWhite_Space}\\p{Cntrl}]+$");
+
+    public static String stripBlank(String s) {
+        if (s == null) {
+            return null;
+        }
+        return EDGE_BLANK.matcher(s).replaceAll("");
+    }
 
     public static List<String> filterNotBlank(List<String> list) {
         if (list == null || list.isEmpty()) {
@@ -16,8 +27,8 @@ public class StringProcessor {
 
         return list.stream()
                 .filter(Objects::nonNull)
-                .map(String::trim)
-                .filter(s -> !s.isBlank())
+                .map(StringProcessor::stripBlank)
+                .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
     }
 
@@ -25,7 +36,6 @@ public class StringProcessor {
         if (s == null) {
             return false;
         }
-        String cleaned = s.replaceAll("[\\p{Space}\\p{Cntrl}]", "");
-        return !cleaned.isEmpty();
+        return !stripBlank(s).isEmpty();
     }
 }
