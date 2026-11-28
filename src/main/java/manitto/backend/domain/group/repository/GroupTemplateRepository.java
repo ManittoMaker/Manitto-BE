@@ -20,16 +20,23 @@ public class GroupTemplateRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("leaderName").is(leaderName));
         query.addCriteria(Criteria.where("groupName").is(groupName));
-        query.addCriteria(Criteria.where("password").is(password));
         List<Group> groups = mongoTemplate.find(query, Group.class);
 
         if (groups.isEmpty()) {
             throw new CustomException(ErrorCode.GROUP_NOT_FOUND);
         }
-        if (groups.size() > 1) {
+
+        List<Group> passwordMatchedGroups = groups.stream()
+                .filter(group -> password.equals(group.getPassword()))
+                .toList();
+
+        if (passwordMatchedGroups.isEmpty()) {
+            throw new CustomException(ErrorCode.GROUP_PASSWORD_MISMATCH);
+        }
+        if (passwordMatchedGroups.size() > 1) {
             throw new CustomException(ErrorCode.GROUP_INTEGRITY_VIOLATION);
         }
 
-        return groups.get(0);
+        return passwordMatchedGroups.get(0);
     }
 }
